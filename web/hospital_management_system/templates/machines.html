@@ -16,70 +16,11 @@
             </div>
         {% endif %}
     {% endwith %}
-
+            
     <!-- Radio Buttons and Forms -->
     <div style="display: flex; justify-content: center; flex-direction: row; flex-wrap: wrap;">
-        <input type="radio" id="add-machine" name="action" checked>
-        <label for="add-machine" style="width: 200px; font-weight: bold; text-align: center; margin-right: 10px;" >Add Machine</label>
-
-        <input type="radio" id="search-machine" name="action">
-        <label for="search-machine" style="width: 200px; font-weight: bold; text-align: center;" >Search Machine</label>
-
-        <!-- Add Form -->
-        <div class="form-section add-machine-form" style="width: 100%; margin-left: auto;">
-            <div class="post_to_database px-2" style="width: 100%;">
-                <div class="bg-white text-center rounded p-4">
-                    <form method="POST">
-                        <div class="row g-3" style="display: flex; justify-content: center;">
-                            <div class="col-12 col-sm-6">
-                                <input type="text" class="form-control bg-light border-0" placeholder="Name" style="height: 55px;" name="name">
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="date" id="date" data-target-input="nearest">
-                                    <input type="text"
-                                           class="form-control bg-light border-0 datetimepicker-input"
-                                           placeholder="Purchase Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;" name="purchase_date">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <select class="form-select bg-light border-0" style="height: 55px;" name="department">
-                                    <option selected>Choose Department</option>
-                                    {% for department_name in department_names %}
-                                    <option>{{ department_name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <select class="form-select bg-light border-0" style="height: 55px;" name="room">
-                                    <option selected>Choose Room Number</option>
-                                    {% for room_number in room_numbers %}
-                                    <option>{{ room_number }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <input type="text" class="form-control bg-light border-0" placeholder="Price" style="height: 55px;" name="price">
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <select class="form-select bg-light border-0" style="height: 55px;" name="is_working">
-                                    <option selected>Busy Or Free</option>
-                                    <option>Busy</option>
-                                    <option>Free</option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-sm-12">
-                                <input type="text" class="form-control bg-light border-0" placeholder="About" style="height: 55px;" name="about">
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Add A Machine</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>            
-        </div>
-
         <!-- Search Form -->
+        <h1 style="color: var(--primary); margin-top: 10px;">Search Machine</h1>
         <div class="form-section search-machine-form" style="width: 100%; margin-left: auto;">
             <div class="get_from_database px-2" style="width: 100%;">
                 <form method="GET">
@@ -111,9 +52,9 @@
                         </thead>
                         <tbody>
                             {% for machine in machines %}
-                                <tr>
-                                    <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.machine_name }}</td>
-                                    <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.time_of_purchase }}</td>
+                            <tr>
+                                <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.machine_name }}</td>
+                                <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.time_of_purchase }}</td>
                                     <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.department_name}}</td>
                                     <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.room_number }}</td>
                                     <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.price }}</td>
@@ -136,6 +77,61 @@
                 </div>
             </div>
         </div>
+    </div>
+    
+    <!-- Add Form -->
+    <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Add Machine</h1>
+    <div class="form-section add-machine-form" style="width: 100%; margin-left: auto;">
+        <div class="post_to_database px-2" style="width: 100%;">
+            <div class="bg-white text-center rounded p-4">
+                <form method="POST">
+                    <div class="row g-3" style="display: flex; justify-content: center;">
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="Name" style="height: 55px;" name="name">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="date" id="date" data-target-input="nearest">
+                                <input type="text"
+                                class="form-control bg-light border-0 datetimepicker-input"
+                                        placeholder="Purchase Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;" name="purchase_date">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                            <select class="form-select bg-light border-0" style="height: 55px;" name="department">
+                                <option selected>Choose Department</option>
+                                {% for department_name in department_names %}
+                                <option>{{ department_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <select class="form-select bg-light border-0" style="height: 55px;" name="room">
+                                <option selected>Choose Room Number</option>
+                                {% for room_number in room_numbers %}
+                                <option>{{ room_number }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="Price" style="height: 55px;" name="price">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <select class="form-select bg-light border-0" style="height: 55px;" name="is_working">
+                                <option selected>Busy Or Free</option>
+                                <option>Busy</option>
+                                <option>Free</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-12">
+                            <input type="text" class="form-control bg-light border-0" placeholder="About" style="height: 55px;" name="about">
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary w-100 py-3" type="submit">Add A Machine</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>            
     </div>
 </div>
 {% endblock %}
