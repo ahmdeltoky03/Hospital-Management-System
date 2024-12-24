@@ -40,6 +40,15 @@
 }
 
 /* CSS Styling */
+.background_image {
+    background: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(../img/banner.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    animation: scaleBackground 30s infinite alternate linear;
+    -webkit-animation: scaleBackground 30s infinite alternate linear;
+}
+
 .home-flex {
     display: flex;
     flex-direction: column;
@@ -126,15 +135,6 @@
     color: var(--primary);
 }
 
-.hero-header {
-    background: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(../img/banner.jpg);
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    animation: scaleBackground 30s infinite alternate linear;
-    -webkit-animation: scaleBackground 30s infinite alternate linear;
-}
-
 @keyframes scaleBackground {
     0% {
         background-size: 100%; /* Original size */
@@ -207,34 +207,5 @@
 }
 
 .form-section {
-    display: none;
     margin-top: 20px;
-}
-
-/* Show the form section when the associated radio button is selected */
-#add-machine:checked ~ .form-section.add-machine-form,
-#search-machine:checked ~ .form-section.search-machine-form {
-    display: block;
-}
-
-label {
-    cursor: pointer;
-}
-
-input[type="radio"] {
-    display: none;
-}
-
-input[type="radio"] + label {
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f4f4f4;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-input[type="radio"]:checked + label {
-    background-color: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
 }
