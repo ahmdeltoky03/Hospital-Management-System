@@ -1,0 +1,240 @@
+/********** Template CSS **********/
+:root {
+    --primary: #13C5DD;
+    --secondary: #354F8E;
+    --light: #EFF5F9;
+    --dark  : #1D2A4D;
+}
+
+/* Media Queries */
+@media (min-width: 992px) {
+    .navbar-light .navbar-nav .nav-link::before {
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 3px;
+        bottom: 0;
+        left: 50%;
+        background: var(--primary);
+        transition: .5s;
+    }
+
+    .navbar-light .navbar-nav .nav-link:hover::before,
+    .navbar-light .navbar-nav .nav-link.active::before {
+        width: 100%;
+        left: 0;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar-light .navbar-nav .nav-link  {
+        margin-left: 0;
+        padding: 10px 0;
+    }
+}
+
+@media (min-width: 576px) {
+    .team-item .row {
+        height: 350px;
+    }
+}
+
+/* CSS Styling */
+.home-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.others-item {
+    background-color: #FFFFFF;
+    padding-left: 16px;
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+    -webkit-transition: background-color 0.3s ease, padding-left 0.3s ease;
+    -moz-transition: background-color 0.3s ease, padding-left 0.3s ease;
+    -ms-transition: background-color 0.3s ease, padding-left 0.3s ease;
+    -o-transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+
+.others:active {
+    color: var(--primary);
+}
+
+.others-item:hover {
+    background-color: light;
+    padding-left: 23px;
+}
+
+.btn {
+    font-weight: 700;
+    transition: .5s;
+}
+
+.btn:hover {
+    -webkit-box-shadow: 0 8px 6px -6px #555555;
+    -moz-box-shadow: 0 8px 6px -6px #555555;
+    box-shadow: 0 8px 6px -6px #555555;
+}
+
+.btn-primary {
+    color: #FFFFFF;
+}
+
+.btn-square {
+    width: 36px;
+    height: 36px;
+}
+
+.btn-sm-square {
+    width: 28px;
+    height: 28px;
+}
+
+.btn-lg-square {
+    width: 46px;
+    height: 46px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    font-family: 'Jost', sans-serif;
+    position: relative;
+    margin-left: 30px;
+    padding: 1px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--light);
+    outline: none;
+    transition: .5s;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+    color: var(--primary);
+}
+
+.hero-header {
+    background: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(../img/banner.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    animation: scaleBackground 30s infinite alternate linear;
+    -webkit-animation: scaleBackground 30s infinite alternate linear;
+}
+
+@keyframes scaleBackground {
+    0% {
+        background-size: 100%; /* Original size */
+    }
+    50% {
+        background-size: 130%; /* Scaled-up size */
+    }
+    100% {
+        background-size: 100%; /* Scaled-up size */
+    }
+}
+
+.main-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-font-size {
+    font-size: 20px;
+}
+
+.post_get_parent {
+    display: flex;
+}
+
+.post_to_database {
+    width: 700px;
+}
+
+.get_from_database {
+    width: 800px;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #fff;
+    width: 220px;
+    box-shadow: 0 5px 25px rgba(1 1 1 / 15%);
+    border-radius: 10px;
+    padding: 25px;
+    margin: 15px;
+    transition: 0.7s ease;
+}
+
+.card:hover {
+    transform: scale(1.1);
+}
+
+.card .icon {
+    color: var(--primary);
+    font-size: 8em;
+    text-align: center;
+}
+
+.info {
+    text-align: center;
+}
+
+.info h3 {
+    color: black;
+    font-size: 1.2em;
+    font-weight: 700;
+    margin: 10px;
+}
+
+.form-section {
+    display: none;
+    margin-top: 20px;
+}
+
+/* Show the form section when the associated radio button is selected */
+#add-machine:checked ~ .form-section.add-machine-form,
+#search-machine:checked ~ .form-section.search-machine-form {
+    display: block;
+}
+
+label {
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"] + label {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+input[type="radio"]:checked + label {
+    background-color: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
