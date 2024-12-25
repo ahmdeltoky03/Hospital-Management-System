@@ -1,7 +1,7 @@
 from flask import render_template, request, flash, redirect, url_for
 from hospital_management_system import app, conn
 import pyodbc
-from hospital_management_system.routes_code import machine_routes
+from hospital_management_system.routes_code import machine_routes, department_routes
 
 @app.route('/')
 @app.route('/home')
@@ -23,10 +23,6 @@ def appointments():
 @app.route('/bills')
 def bills():
     return render_template('bills.html')
-
-@app.route('/departments')
-def departments():
-    return render_template('departments.html')
 
 @app.route('/employees')
 def employees():
