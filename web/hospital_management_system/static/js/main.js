@@ -17,6 +17,40 @@ function updateInputField() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Select all delete icons
+    const deleteIcons = document.querySelectorAll(".delete-icon");
+
+    deleteIcons.forEach(icon => {
+        icon.addEventListener("click", function () {
+            const itemId = this.getAttribute("data-id"); // Get the item ID
+            const row = this.closest("tr"); // Get the row to remove
+            const confirmed = confirm("Are you sure you want to delete this item?");
+
+            if (confirmed) {
+                fetch(`/delete-item/${itemId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to delete item.");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert(data.message);
+                    // Remove the row from the DOM
+                    row.remove();
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("An error occurred while deleting the item.");
+                });
+            }
+        });
+    });
+});
+
 (function ($) {
     "use strict";
 

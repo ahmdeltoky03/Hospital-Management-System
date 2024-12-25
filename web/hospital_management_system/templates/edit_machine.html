@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block machines %}active{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Edit Form -->
+    <div style="height: 586px; display: flex; justify-content: center; align-items: center;">
+        <div>
+            <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Edit Machine</h1>
+            <div class="form-section add-machine-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
+                <div class="post_to_database px-2" style="width: 100%;">
+                    <div class="bg-white text-center rounded p-4">
+                        <form method="POST">
+                            <div class="row g-3" style="display: flex; justify-content: center;">
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Name" style="height: 55px;" name="name" value="{{ machine.machine_name }}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="date" class="form-control bg-light border-0 datetimepicker-input" name="purchase_date"
+                                            placeholder="Purchase Date" style="height: 55px;" value="{{machine.time_of_purchase}}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <select class="form-select bg-light border-0" style="height: 55px;" name="department">
+                                        <option>Choose Department</option>
+                                        {% for department_name in department_names %}
+                                        <option {% if department_name == machine.department_name %}selected{% endif %}>{{ department_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <select class="form-select bg-light border-0" style="height: 55px;" name="room">
+                                        <option>Choose Room Number</option>
+                                        {% for room_number in room_numbers %}
+                                        <option {% if room_number == machine.room_number %}selected{% endif %}>{{ room_number }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Price" style="height: 55px;" name="price" value="{{ machine.price }}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <select class="form-select bg-light border-0" style="height: 55px;" name="is_working">
+                                        <option>Busy Or Free</option>
+                                        <option value="True" {% if machine.is_working == True %}selected{% endif %}>Busy</option>
+                                        <option value="False" {% if machine.is_working == False %}selected{% endif %}>Free</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-12">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="About" style="height: 55px;" name="about" value="{{ machine.about }}">
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Edit A Machine</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

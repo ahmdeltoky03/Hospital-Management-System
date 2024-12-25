@@ -56,25 +56,25 @@
                         </thead>
                         <tbody>
                             {% for machine in machines %}
-                            <tr>
-                                <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.machine_name }}</td>
-                                <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.time_of_purchase }}</td>
-                                    <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.department_name}}</td>
-                                    <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.room_number }}</td>
-                                    <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.price }}</td>
-                                    <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.about }}</td>
-                                    <td style="background-color: #d8e2ea; color: #44677d;">{{ machine.is_working }}</td>
-                                    <td style="background-color: #d8e2ea; color: #44677d;">
-                                        <div style="display: flex;">
-                                            <div style="width: 25px;">
-                                                <i class="fa-solid fa-pen" style="color: #8f8f8f; font-size: 28px;"></i>
-                                            </div>
-                                            <div style="width: 25px; margin-left: 10px;">
-                                                <i class="fa-solid fa-trash" style="color: #ff0000; font-size: 28px;"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tr data-id="{{machine_id}}">
+                                <td class="machine-name" style="background-color: #d8e2ea; color: #44677d;">{{ machine.machine_name }}</td>
+                                <td class="purchase-date" style="background-color: #d8e2ea; color: #44677d;">{{ machine.time_of_purchase }}</td>
+                                <td class="department" style="background-color: #d8e2ea; color: #44677d;">{{ machine.department_name}}</td>
+                                <td class="room" style="background-color: #d8e2ea; color: #44677d;">{{ machine.room_number }}</td>
+                                <td class="price" style="background-color: #d8e2ea; color: #44677d;">{{ machine.price }}</td>
+                                <td class="about" style="background-color: #d8e2ea; color: #44677d;">{{ machine.about }}</td>
+                                <td class="is-working" style="background-color: #d8e2ea; color: #44677d;">{{ machine.is_working }}</td>
+                                <td style="background-color: #d8e2ea; color: #44677d;">
+                                    <div style="display: flex;">
+                                        <a href="/edit_machine/{{ machine.machine_id }}" style="width: 25px;">
+                                            <i class="fa-solid fa-pen" style="color: #8f8f8f; font-size: 28px;" data-id="1"></i>
+                                        </a>
+                                        <a href="/delete_machine/{{ machine.machine_id }}" style="width: 25px; margin-left: 10px;">
+                                            <i class="fa-solid fa-trash" style="color: #ff0000; font-size: 28px;" data-id="2"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
                             {% endfor %}
                         </tbody>
                     </table>
