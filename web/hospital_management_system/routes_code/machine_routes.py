@@ -124,24 +124,7 @@ def edit_machine(id):
     if request.method == 'GET':
         cursor_01.execute(
             '''
-            SELECT machine_id,
-                machine_name, 
-                time_of_purchase, 
-                (
-                    SELECT department_name 
-                    FROM Departments 
-                    WHERE Departments.department_id = Machines.department_id
-                ) as department_name,
-                (
-                    select room_number
-                    from Rooms
-                    where Rooms.room_id = Machines.room_id
-                ) as room_number,
-                price, 
-                about, 
-                is_working 
-            FROM Machines
-            WHERE machine_id = ?
+            exec GetMachineByItsID @machine_id = ?
             ''', (id,)
         )
         machine = cursor_01.fetchone()
@@ -179,15 +162,14 @@ def edit_machine(id):
         # Update machine data in the database
         cursor_01.execute(
         '''
-        UPDATE machines
-        SET machine_name = ?, 
-            time_of_purchase = ?, 
-            department_id = (SELECT department_id FROM departments WHERE department_name = ?),
-            room_id = (SELECT room_id FROM rooms WHERE room_number = ?),
-            price = ?, 
-            about = ?, 
-            is_working = ?
-        WHERE machine_id = ?
+        exec UpdateMachines
+        @updated_name = ?,
+        @time_of_purchase = ?,
+        @department_name = ?,
+        @room_number = ?,
+        @price = ?,
+        @about = ?,
+        @is_working = ?,
         ''', (updated_name, updated_time_of_purchase, updated_department, updated_room, updated_price, updated_about, updated_status, id)
         )
 

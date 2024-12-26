@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block rooms %}active{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Edit Form -->
+    <div style="height: 586px; display: flex; justify-content: center; align-items: center;">
+        <div>
+            <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Edit Rooms</h1>
+            <div class="form-section add-room-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
+                <div class="post_to_database px-2" style="width: 100%;">
+                    <div class="bg-white text-center rounded p-4">
+                        <form method="POST">
+                            <div class="row g-3" style="display: flex; justify-content: center;">
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Number" style="height: 55px;" name="number" value="{{ room.room_number }}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Room Length" style="height: 55px;" name="length" value="{{ room.room_length }}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Room Width" style="height: 55px;" name="width" value="{{ room.room_width }}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <select class="form-select bg-light border-0" style="height: 55px;" name="department">
+                                        <option>Choose Department</option>
+                                        {% for department_name in department_names %}
+                                        <option {% if department_name == room.department_name %}selected{% endif %}>{{ department_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="col-12 col-sm-6">
+                                    <select class="form-select bg-light border-0" style="height: 55px;" name="is_available">
+                                        <option>Busy Or Free</option>
+                                        <option value="True" {% if room.is_available == True %}selected{% endif %}>Free</option>
+                                        <option value="False" {% if room.is_available == False %}selected{% endif %}>Busy</option>
+                                    </select>
+                                </div>
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Edit A Room</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
