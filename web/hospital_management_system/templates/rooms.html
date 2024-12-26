@@ -3,95 +3,123 @@
 {% block rooms %}active{% endblock %}
 
 {% block content %}
-<div class="main-footer px-5">
-    <div class="post_to_database px-2">
-        <div class="bg-white text-center rounded p-5">
-            <h1 class="mb-4">Add A Room</h1>
-            <form>
-                <div class="row g-3">
-                    <div class="col-12 col-sm-6">
-                        <select class="form-select bg-light border-0" style="height: 55px;">
-                            <option selected>Choose Department</option>
-                            <option value="1">Department 1</option>
-                            <option value="2">Department 2</option>
-                            <option value="3">Department 3</option>
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+            
+    <!-- Radio Buttons and Forms -->
+    <div style="display: flex; justify-content: center; flex-direction: row; flex-wrap: wrap;">
+        <!-- Search Form -->
+        <h1 style="color: var(--primary); margin-top: 10px;">Search Room</h1>
+        <div class="form-section search-machine-form" style="width: 100%; margin-left: auto;">
+            <div class="get_from_database px-2" style="width: 100%;">
+                <form method="GET">
+                    <div class="input-group">
+                        <select id="filter" onchange="updateInputField()" class="form-select border-primary w-5" style="height: 60px;" name="search">
+                            <option value="getAll">Get All</option>
+                            <option value="roomNumber">Room Number</option>
+                            <option value="departmentName">Department Name</option>
+                            <option value="IsAvailable">Is Available</option>
                         </select>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <select class="form-select bg-light border-0" style="height: 55px;">
-                            <option selected>Select Doctor</option>
-                            <option value="1">Doctor 1</option>
-                            <option value="2">Doctor 2</option>
-                            <option value="3">Doctor 3</option>
+                        <select id="dropdownInput" style="display: none;" class="w-5 form-select border-primary" name="value">
+                            <option value="True">True</option>
+                            <option value="False">False</option>
                         </select>
+                        <input type="text" style="display: none;" id="textInput" class="form-control border-primary w-45" placeholder="Keyword" name="value">
+                        <button type="submit" class="btn btn-dark border-0 w-25">Search</button>
                     </div>
-                    <div class="col-12 col-sm-6">
-                        <input type="text" class="form-control bg-light border-0" placeholder="Your Name" style="height: 55px;">
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <input type="email" class="form-control bg-light border-0" placeholder="Your Email" style="height: 55px;">
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="date" id="date" data-target-input="nearest">
-                            <input type="text"
-                                class="form-control bg-light border-0 datetimepicker-input"
-                                placeholder="Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;">
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="time" id="time" data-target-input="nearest">
-                            <input type="text"
-                                class="form-control bg-light border-0 datetimepicker-input"
-                                placeholder="Time" data-target="#time" data-toggle="datetimepicker" style="height: 55px;">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3" type="submit">Add A Room</button>
-                    </div>
+                </form>
+                <div class="div_table" style="margin-top: 10px; text-align: center; max-height: 430px; overflow: auto;">
+                    <table class="table table-hover" style="border-collapse: separate; border-spacing: 2px;">
+                        <thead>
+                            <tr>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Room Number</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Room Length</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Room Width</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Department Name</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Is Available?</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for room in rooms %}
+                            <tr data-id="{{room_id}}">
+                                <td class="room_number" style="background-color: #d8e2ea; color: #44677d;">{{ room.room_number }}</td>
+                                <td class="room_length" style="background-color: #d8e2ea; color: #44677d;">{{ room.room_length}}</td>
+                                <td class="room_width" style="background-color: #d8e2ea; color: #44677d;">{{ room.room_width }}</td>
+                                <td class="department_name" style="background-color: #d8e2ea; color: #44677d;">{{ room.department_name }}</td>
+                                <td class="is_available" style="background-color: #d8e2ea; color: #44677d;">{{ room.is_available }}</td>
+                                <td style="background-color: #d8e2ea; color: #44677d;">
+                                    <div style="display: flex;">
+                                        <a href="/edit_room/{{ room.room_id }}" style="width: 25px;">
+                                            <i class="fa-solid fa-pen" style="color: #8f8f8f; font-size: 28px;" data-id="1"></i>
+                                        </a>
+                                        <a href="/delete_room/{{ room.room_id }}" style="width: 25px; margin-left: 10px;">
+                                            <i class="fa-solid fa-trash" style="color: #ff0000; font-size: 28px;" data-id="2"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     
-    <div class="get_from_database px-2">
-        <div class="">
-            <div class="input-group">
-                <select class="form-select border-primary w-5" style="height: 60px;">
-                    <option selected>Department</option>
-                    <option value="1">Department 1</option>
-                    <option value="2">Department 2</option>
-                    <option value="3">Department 3</option>
-                </select>
-                <select class="form-select border-primary w-5" style="height: 60px;">
-                    <option selected>Filter Type</option>
-                    <option value="min">Less Than</option>
-                    <option value="max">More Than</option>
-                    <option value="equal">Equal</option>
-                </select>
-                <input type="text" class="form-control border-primary w-45" placeholder="Keyword">
-                <button class="btn btn-dark border-0 w-25">Search</button>
+    <!-- Add Form -->
+    <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Add Room</h1>
+    <div class="form-section add-machine-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
+        <div class="post_to_database px-2" style="width: 100%;">
+            <div class="bg-white text-center rounded p-4">
+                <form method="POST">
+                    <div class="row g-3" style="display: flex; justify-content: center;">
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="Room Number" style="height: 55px;" name="room_number">
+                        </div>
+                        
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="Room Length" style="height: 55px;" name="room_length">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="Room Width" style="height: 55px;" name="room_width">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <select class="form-select bg-light border-0" style="height: 55px;" name="department_name">
+                                <option selected>Choose Department</option>
+                                {% for department_name in department_names %}
+                                <option>{{ department_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        
+                        <div class="col-12 col-sm-6">
+                            <select class="form-select bg-light border-0" style="height: 55px;" name="is_available">
+                                <option selected>Busy Or Free</option>
+                                <option>Busy</option>
+                                <option>Free</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12">
+                            <button class="btn btn-primary w-100 py-3" type="submit">Add A Room</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        <div class="div_table" style="margin-top: 10px; text-align: center;">
-            <table class="table table-hover" style="border-collapse: separate; border-spacing: 2px;">
-                <thead>
-                    <tr>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Type</th>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Column heading</th>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Column heading</th>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Column heading</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="background-color: #d8e2ea;">Dark</td>
-                        <td style="background-color: #d8e2ea;">Column content</td>
-                        <td style="background-color: #d8e2ea;">Column content</td>
-                        <td style="background-color: #d8e2ea;">Column content</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        </div>            
     </div>
 </div>
 {% endblock %}
