@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block patients %}active{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Edit Form -->
+    <div style="height: 586px; display: flex; justify-content: center; align-items: center;">
+        <div>
+            <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Edit Patient</h1>
+            <div class="form-section add-patient-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
+                <div class="post_to_database px-2" style="width: 100%;">
+                    <div class="bg-white text-center rounded p-4">
+                        <form method="POST">
+                            <div class="row g-3" style="display: flex; justify-content: center;">
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="First Name" style="height: 55px;" name="first_name" value="{{patient.first_name}}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Middle Name" style="height: 55px;" name="middle_name" value="{{patient.middle_name}}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Last Name" style="height: 55px;" name="last_name" value="{{patient.last_name}}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="text" id="date1" data-target-input="nearest">
+                                        <input type="text" class="form-control bg-light border-0 datetimepicker-input" 
+                                               placeholder="Date Of Birth" data-target="#date1" data-toggle="datetimepicker" 
+                                               style="height: 55px;" name="date_of_birth" value="{{patient.date_of_birth}}">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <select class="form-select bg-light border-0" style="height: 55px;" name="gender">
+                                        <option selected>Choose Gender</option>
+                                        <option {% if patient.gender == 'Male' %}selected{% endif %}>Male</option>
+                                        <option {% if patient.gender == 'Female' %}selected{% endif %}>Female</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="text" id="date2" data-target-input="nearest">
+                                        <input type="text" class="form-control bg-light border-0 datetimepicker-input" 
+                                               placeholder="Patient Entry Date" data-target="#date2" data-toggle="datetimepicker" 
+                                               style="height: 55px;" name="patient_entry_date" value="{{patient.patient_entry_date}}">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Phone Number" style="height: 55px;" name="phone_number" value="{{patient.phone_number}}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <select class="form-select bg-light border-0" style="height: 55px;" name="room_number">
+                                        <option>Choose Room Number</option>
+                                        {% for room in rooms %}
+                                        <option {% if room == patient.room_number %}selected{% endif %}>{{ room }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <select class="form-select bg-light border-0" style="height: 55px;" name="bed_number">
+                                        <option>Choose Bed Number</option>
+                                        {% for bed in beds %}
+                                        <option {% if bed == patient.bed_number %}selected{% endif %}>{{ bed }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Patient Status" style="height: 55px;" name="patient_status" value="{{patient.patient_status}}">
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Edit A Patient</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

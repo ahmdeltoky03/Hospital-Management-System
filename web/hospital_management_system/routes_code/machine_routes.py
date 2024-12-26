@@ -46,7 +46,8 @@ def machines():
     elif request.method == 'GET':
         cursor_01 = None  # Initialize to avoid unbound variable error
         search_type = request.args.get('search')
-        search_value = request.args.get('value')
+        search_value_text = request.args.get('value_text')
+        search_value_bool = request.args.get('value_bool')
         
         if search_type == 'getAll':
             cursor_01 = conn.cursor()
@@ -92,7 +93,7 @@ def machines():
                     is_working 
                 FROM Machines
                 where machine_name = ?
-            ''', (search_value, ))
+            ''', (search_value_text, ))
             machines = cursor_01.fetchall()
 
         elif search_type == 'departmentName':
@@ -116,7 +117,7 @@ def machines():
                     is_working 
                 FROM Machines
                 where department_id = (select department_id from Departments where Departments.department_name = ?)
-            ''', (search_value, ))
+            ''', (search_value_text, ))
             machines = cursor_01.fetchall()
 
         elif search_type == 'roomNumber':
@@ -140,7 +141,7 @@ def machines():
                     is_working 
                 FROM Machines
                 where room_id = (select room_id from Rooms where Rooms.room_number = ?)
-            ''', (search_value, ))
+            ''', (search_value_text, ))
             machines = cursor_01.fetchall()
         
         elif search_type == 'isWorking':
@@ -164,7 +165,7 @@ def machines():
                         is_working 
                     FROM Machines
                     WHERE is_working = ?
-                ''', (search_value,))
+                ''', (search_value_bool,))
                 machines = cursor_01.fetchall()
 
         else:
