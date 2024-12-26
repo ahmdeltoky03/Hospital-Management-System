@@ -51,120 +51,37 @@ def machines():
         if search_type == 'getAll':
             cursor_01 = conn.cursor()
             cursor_01.execute('''
-                SELECT machine_id,
-                    machine_name, 
-                    time_of_purchase, 
-                    (
-                        SELECT department_name 
-                        FROM Departments 
-                        WHERE Departments.department_id = Machines.department_id
-                    ) as department_name,
-                    (
-                        select room_number
-                        from Rooms
-                        where Rooms.room_id = Machines.room_id
-                    ) as room_number,
-                    price, 
-                    about, 
-                    is_working 
-                FROM Machines
+                exec GetAllMachines
             ''')
             machines = cursor_01.fetchall()
 
         elif search_type == 'machineName':
             cursor_01 = conn.cursor()
-            cursor_01.execute(f'''
-                SELECT machine_id,
-                    machine_name, 
-                    time_of_purchase, 
-                    (
-                        SELECT department_name 
-                        FROM Departments 
-                        WHERE Departments.department_id = Machines.department_id
-                    ) AS department_name,
-                    (
-                        SELECT room_number
-                        FROM Rooms
-                        WHERE Rooms.room_id = Machines.room_id
-                    ) AS room_number,
-                    price, 
-                    about, 
-                    is_working 
-                FROM Machines
-                where machine_name = ?
-            ''', (search_value, ))
+            cursor_01.execute(f''' 
+                        exec GetMachineByItsName 
+                            @machine_name = ? ''', (search_value, ))
             machines = cursor_01.fetchall()
 
         elif search_type == 'departmentName':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                SELECT machine_id,
-                    machine_name, 
-                    time_of_purchase, 
-                    (
-                        SELECT department_name 
-                        FROM Departments 
-                        WHERE Departments.department_id = Machines.department_id
-                    ) AS department_name,
-                    (
-                        SELECT room_number
-                        FROM Rooms
-                        WHERE Rooms.room_id = Machines.room_id
-                    ) AS room_number,
-                    price, 
-                    about, 
-                    is_working 
-                FROM Machines
-                where department_id = (select department_id from Departments where Departments.department_name = ?)
-            ''', (search_value, ))
+                exec GetMachinesByDepartmentName
+                @department_name = ?
+                ''', (search_value, ))
             machines = cursor_01.fetchall()
 
         elif search_type == 'roomNumber':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                SELECT machine_id,
-                    machine_name, 
-                    time_of_purchase, 
-                    (
-                        SELECT department_name 
-                        FROM Departments 
-                        WHERE Departments.department_id = Machines.department_id
-                    ) AS department_name,
-                    (
-                        SELECT room_number
-                        FROM Rooms
-                        WHERE Rooms.room_id = Machines.room_id
-                    ) AS room_number,
-                    price, 
-                    about, 
-                    is_working 
-                FROM Machines
-                where room_id = (select room_id from Rooms where Rooms.room_number = ?)
-            ''', (search_value, ))
+                exec GetMachinesByRoomNumber @room_number = ?
+                ''', (search_value, ))
             machines = cursor_01.fetchall()
         
         elif search_type == 'isWorking':
                 cursor_01 = conn.cursor()
                 cursor_01.execute('''
-                    SELECT machine_id,
-                        machine_name, 
-                        time_of_purchase, 
-                        (
-                            SELECT department_name 
-                            FROM Departments 
-                            WHERE Departments.department_id = Machines.department_id
-                        ) AS department_name,
-                        (
-                            SELECT room_number
-                            FROM Rooms
-                            WHERE Rooms.room_id = Machines.room_id
-                        ) AS room_number,
-                        price, 
-                        about, 
-                        is_working 
-                    FROM Machines
-                    WHERE is_working = ?
-                ''', (search_value,))
+                    exec GetMachinesByCaseOfWork @is_working = ?
+                    ''', (search_value,))
                 machines = cursor_01.fetchall()
 
         else:

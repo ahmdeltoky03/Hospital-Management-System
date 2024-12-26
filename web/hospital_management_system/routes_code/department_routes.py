@@ -15,8 +15,7 @@ def departments():
         try:
             cursor = conn.cursor()
             cursor.execute('''
-                INSERT INTO departments (department_name, department_description, head_of_department)
-                VALUES (?, ?, ?)
+                exec NewDepartment @department_name = ?, @department_description = ?, @head_of_department = ?
                 ''', (department_name, department_description, head_id))
 
             conn.commit()
@@ -35,35 +34,14 @@ def departments():
         if search_type == 'getAll':
             cursor_01 = conn.cursor()
             cursor_01.execute('''
-                SELECT 
-                    department_id,
-                    department_name,
-                    department_description,
-                    head_of_department,
-                    (
-                        SELECT CONCAT(first_name, ' ', middle_name, ' ', last_name)
-                        FROM employees
-                        WHERE employees.employee_id = departments.head_of_department
-                    ) AS head_name
-                FROM departments;
-            ''')
+                exec GetAllDepartments
+                ''')
             departments = cursor_01.fetchall()
 
         elif search_type == 'departmentName':
             cursor_01 = conn.cursor()
             cursor_01.execute('''
-                SELECT 
-                    department_id,
-                    department_name,
-                    department_description,
-                    head_of_department,
-                    (
-                        SELECT CONCAT(first_name, ' ', middle_name, ' ', last_name)
-                        FROM employees
-                        WHERE employees.employee_id = departments.head_of_department
-                    ) AS head_name
-                FROM departments
-                WHERE departments.department_name = ?
+               exec GetDepartmentByItsName @department_name = ?
             ''', (search_value, ))
 
             departments = cursor_01.fetchall()
@@ -71,34 +49,15 @@ def departments():
         elif search_type == 'headID':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                SELECT 
-                    department_id,
-                    department_name,
-                    department_description,
-                    head_of_department,
-                    (
-                        SELECT CONCAT(first_name, ' ', middle_name, ' ', last_name)
-                        FROM employees
-                        WHERE employees.employee_id = departments.head_of_department
-                    ) AS head_name
-                FROM departments
-                WHERE departments.head_of_department = ?
+                exec GetDepartmentByHeadID @head_id = ?
             ''', (search_value, ))
             departments = cursor_01.fetchall()
 
         elif search_type == 'headName':
             cursor_01 = conn.cursor()
             cursor_01.execute('''
-                SELECT 
-                    department_id,
-                    department_name,
-                    department_description,
-                    head_of_department,
-                    CONCAT(first_name, ' ', middle_name, ' ', last_name) AS head_name
-                FROM departments
-                JOIN employees ON employees.employee_id = departments.head_of_department
-                WHERE CONCAT(first_name, ' ', middle_name, ' ', last_name) = ?
-            ''', (search_value,))
+                exec GetDepartmentByHeadName @head_name = ?
+                ''', (search_value,))
             departments = cursor_01.fetchall()
         
         else:
