@@ -27,7 +27,7 @@ function updateInputField() {
         dropdownRoom.style.display = "none";
         dropdownBed.style.display = "none";
     }
-    else if (filter == "isWorking" || filter == "Gender") {
+    else if (filter == "isWorking" || filter == "Gender" || filter == "IsAvailable") {
         textInput.style.display = "none";
         dropdownInput.style.display = "inline";
         dropdownInput1.style.display = "none";

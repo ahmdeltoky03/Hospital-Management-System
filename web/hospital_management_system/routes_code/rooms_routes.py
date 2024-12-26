@@ -51,7 +51,8 @@ def rooms():
     elif request.method == 'GET':
         cursor_01 = None  # Initialize to avoid unbound variable error
         search_type = request.args.get('search')
-        search_value = request.args.get('value')
+        search_value_text = request.args.get('value_text')
+        search_value_bool = request.args.get('value_bool')
         
         if search_type == 'getAll':
             cursor_01 = conn.cursor()
@@ -86,7 +87,7 @@ def rooms():
                     is_available 
                 FROM rooms
                 WHERE room_number = ?
-            ''', (search_value,))
+            ''', (search_value_text,))
             rooms = cursor_01.fetchall()
 
 
@@ -109,7 +110,7 @@ def rooms():
                     FROM Departments 
                     WHERE department_name = ?
                 )
-            ''', (search_value,))
+            ''', (search_value_text,))
             rooms = cursor_01.fetchall()
 
 
@@ -129,7 +130,7 @@ def rooms():
                     is_available 
                 FROM rooms
                     WHERE is_available = ?
-                ''', (search_value,))
+                ''', (search_value_bool,))
                 rooms = cursor_01.fetchall()
 
         else:

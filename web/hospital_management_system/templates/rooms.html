@@ -31,11 +31,11 @@
                             <option value="departmentName">Department Name</option>
                             <option value="IsAvailable">Is Available</option>
                         </select>
-                        <select id="dropdownInput" style="display: none;" class="w-5 form-select border-primary" name="value">
+                        <select id="dropdownInput" style="display: none;" class="w-5 form-select border-primary" name="value_bool">
                             <option value="True">True</option>
                             <option value="False">False</option>
                         </select>
-                        <input type="text" style="display: none;" id="textInput" class="form-control border-primary w-45" placeholder="Keyword" name="value">
+                        <input type="text" style="display: none;" id="textInput" class="form-control border-primary w-45" placeholder="Keyword" name="value_text">
                         <button type="submit" class="btn btn-dark border-0 w-25">Search</button>
                     </div>
                 </form>
@@ -60,7 +60,7 @@
                                 <td class="department_name" style="background-color: #d8e2ea; color: #44677d;">{{ room.department_name }}</td>
                                 <td class="is_available" style="background-color: #d8e2ea; color: #44677d;">{{ room.is_available }}</td>
                                 <td style="background-color: #d8e2ea; color: #44677d;">
-                                    <div style="display: flex;">
+                                    <div style="display: flex; justify-content: center;">
                                         <a href="/edit_room/{{ room.room_id }}" style="width: 25px;">
                                             <i class="fa-solid fa-pen" style="color: #8f8f8f; font-size: 28px;" data-id="1"></i>
                                         </a>
