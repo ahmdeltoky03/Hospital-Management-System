@@ -1,97 +1,108 @@
 {% extends 'base.html' %}
 
-{% block others %}active{% endblock %}
+{% block operations %}active{% endblock %}
 
 {% block content %}
-<div class="main-footer px-5">
-    <div class="post_to_database px-2">
-        <div class="bg-white text-center rounded p-5">
-            <h1 class="mb-4">Add An Operation</h1>
-            <form>
-                <div class="row g-3">
-                    <div class="col-12 col-sm-6">
-                        <select class="form-select bg-light border-0" style="height: 55px;">
-                            <option selected>Choose Department</option>
-                            <option value="1">Department 1</option>
-                            <option value="2">Department 2</option>
-                            <option value="3">Department 3</option>
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+            
+    <!-- Radio Buttons and Forms -->
+    <div style="display: flex; justify-content: center; flex-direction: row; flex-wrap: wrap;">
+        <!-- Search Form -->
+        <h1 style="color: var(--primary); margin-top: 10px;">Search Operation</h1>
+        <div class="form-section search-operation-form" style="width: 100%; margin-left: auto;">
+            <div class="get_from_database px-2" style="width: 100%;">
+                <form method="GET">
+                    <div class="input-group">
+                        <select id="filter" onchange="updateInputField()" class="form-select border-primary w-5" style="height: 60px;" name="search">
+                            <option value="getAll">Get All</option>
                         </select>
+                      
+                        <input type="text" style="display: none;" id="textInput" class="form-control border-primary w-45" placeholder="Keyword" name="value_text">
+                        <button type="submit" class="btn btn-dark border-0 w-25">Search</button>
                     </div>
-                    <div class="col-12 col-sm-6">
-                        <select class="form-select bg-light border-0" style="height: 55px;">
-                            <option selected>Select Doctor</option>
-                            <option value="1">Doctor 1</option>
-                            <option value="2">Doctor 2</option>
-                            <option value="3">Doctor 3</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <input type="text" class="form-control bg-light border-0" placeholder="Your Name" style="height: 55px;">
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <input type="email" class="form-control bg-light border-0" placeholder="Your Email" style="height: 55px;">
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="date" id="date" data-target-input="nearest">
-                            <input type="text"
-                                class="form-control bg-light border-0 datetimepicker-input"
-                                placeholder="Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;">
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="time" id="time" data-target-input="nearest">
-                            <input type="text"
-                                class="form-control bg-light border-0 datetimepicker-input"
-                                placeholder="Time" data-target="#time" data-toggle="datetimepicker" style="height: 55px;">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3" type="submit">Add An Operation</button>
-                    </div>
+                </form>
+                <div class="div_table" style="margin-top: 10px; text-align: center; max-height: 430px; overflow: auto;">
+                    <table class="table table-hover" style="border-collapse: separate; border-spacing: 2px;">
+                        <thead>
+                            <tr>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Patient Name</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Operation About </th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Patient PhoneNumber</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Department Name</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Room Number</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Is success ? </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for operation in operations %}
+                          <tr>
+                              <td class="patient-name" style="background-color: #d8e2ea; color: #44677d;">{{ operation.patient_name }}</td>
+                              <td class="operation-about" style="background-color: #d8e2ea; color: #44677d;">{{ operation.operation_about }}</td>
+                              <td class="patient-phone-number" style="background-color: #d8e2ea; color: #44677d;">{{ operation.patient_phone_number }}</td>
+                              <td class="department-name" style="background-color: #d8e2ea; color: #44677d;">{{ operation.department_name }}</td>
+                              <td class="room-number" style="background-color: #d8e2ea; color: #44677d;">{{ operation.room_number }}</td>
+                              <td class="success" style="background-color: #d8e2ea; color: #44677d;">{{ operation.success}}</td>
+                              
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                      </table>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     
-    <div class="get_from_database px-2">
-        <div class="">
-            <div class="input-group">
-                <select class="form-select border-primary w-5" style="height: 60px;">
-                    <option selected>Department</option>
-                    <option value="1">Department 1</option>
-                    <option value="2">Department 2</option>
-                    <option value="3">Department 3</option>
-                </select>
-                <select class="form-select border-primary w-5" style="height: 60px;">
-                    <option selected>Filter Type</option>
-                    <option value="min">Less Than</option>
-                    <option value="max">More Than</option>
-                    <option value="equal">Equal</option>
-                </select>
-                <input type="text" class="form-control border-primary w-45" placeholder="Keyword">
-                <button class="btn btn-dark border-0 w-25">Search</button>
+    <!-- Add Form -->
+    <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Add Operation</h1>
+    <div class="form-section add-absence-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
+        <div class="post_to_database px-2" style="width: 100%;">
+            <div class="bg-white text-center rounded p-4">
+              <form method="POST">
+                <div class="row g-3" style="display: flex; justify-content: center;">
+                    <div class="col-12 col-sm-6">
+                        <input type="text" class="form-control bg-light border-0" placeholder="Heart Surgery" style="height: 55px;" name="operation_about">
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <input type="text" class="form-control bg-light border-0" placeholder="patient_name" style="height: 55px;" name="patient_name">
+                  </div>
+                    <div class="col-12 col-sm-12">
+                        <input type="text" class="form-control bg-light border-0" placeholder="01100000000" style="height: 55px;" name="patient_phone_number">
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <input type="text" class="form-control bg-light border-0" placeholder="Neurology" style="height: 55px;" name="department_name">
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <input type="text" class="form-control bg-light border-0" placeholder="R101" style="height: 55px;" name="room_number">
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div class="date" id="date" data-target-input="nearest">
+                          <input type="text"
+                          class="form-control bg-light border-0 datetimepicker-input"
+                                  placeholder="Operation Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;" name="operation_date">
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <input type="text" class="form-control bg-light border-0" placeholder="1" style="height: 55px;" name="success">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100 py-3" type="submit">Add Operation</button>
+                    </div>
+                </div>
+              </form>
             </div>
-        </div>
-        <div class="div_table" style="margin-top: 10px; text-align: center;">
-            <table class="table table-hover" style="border-collapse: separate; border-spacing: 2px;">
-                <thead>
-                    <tr>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Type</th>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Column heading</th>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Column heading</th>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Column heading</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="background-color: #d8e2ea;">Dark</td>
-                        <td style="background-color: #d8e2ea;">Column content</td>
-                        <td style="background-color: #d8e2ea;">Column content</td>
-                        <td style="background-color: #d8e2ea;">Column content</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        </div>            
     </div>
-</div>
 {% endblock %}

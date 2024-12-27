@@ -30,26 +30,14 @@ def visits():
         if search_type == 'getAll':
             cursor_01 = conn.cursor()
             cursor_01.execute('''
-                select
-                    visit_id,
-                    CONCAT(P.first_name, ' ', P.middle_name, ' ', P.last_name) AS patient_name,
-                    V.visit_date,
-                    V.visitors_number
-                from Visits V
-                join Patients P ON V.patient_id = P.patient_id;
+                exec GetAllVisits
             ''')
             visits = cursor_01.fetchall()
 
         elif search_type == 'visitDate':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                select
-                    visit_id,
-                    (select concat(first_name, ' ', middle_name, ' ', last_name) from Patients) as patient_name,
-                    visit_date,
-                    visitors_number
-                from Visits
-                where visit_date = ?
+                exec GetVisitsByDate @visit_date = ?
             ''', (search_value_text, ))
             visits = cursor_01.fetchall()
 
@@ -77,11 +65,7 @@ def edit_visit(id):
     if request.method == 'GET':
         cursor_01.execute(
             '''
-            select (select concat(first_name, ' ', middle_name, ' ', last_name) from Patients where patient_id = ?) as patient_name,
-                    visit_date,
-                    visitors_number
-            from Visits
-            WHERE visit_id = ?
+            exec UpdateVisits @patient_id = ?, @visit_id = ?
             ''', (id, id, )
         )
         visit = cursor_01.fetchone()

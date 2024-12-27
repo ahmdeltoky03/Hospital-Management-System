@@ -57,17 +57,7 @@ def rooms():
         if search_type == 'getAll':
             cursor_01 = conn.cursor()
             cursor_01.execute('''
-                SELECT room_id,
-                    room_number, 
-                    room_length,
-                    room_width,           
-                    (
-                        SELECT department_name 
-                        FROM Departments 
-                        WHERE Departments.department_id = rooms.department_id
-                    ) as department_name, 
-                    is_available 
-                FROM rooms
+                exec GetAllRooms
             ''')
             rooms = cursor_01.fetchall()
 
@@ -75,18 +65,7 @@ def rooms():
         elif search_type == 'roomNumber':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                SELECT room_id,
-                    room_number, 
-                    room_length,
-                    room_width,           
-                    (
-                        SELECT department_name 
-                        FROM Departments 
-                        WHERE Departments.department_id = rooms.department_id
-                    ) as department_name, 
-                    is_available 
-                FROM rooms
-                WHERE room_number = ?
+                exec GetRoomByNumber @room_number = ?
             ''', (search_value_text,))
             rooms = cursor_01.fetchall()
 
@@ -94,21 +73,7 @@ def rooms():
         elif search_type == 'departmentName':
             cursor_01 = conn.cursor()
             cursor_01.execute('''
-                SELECT room_id,
-                    room_number, 
-                    room_length,
-                    room_width,           
-                    (
-                        SELECT department_name 
-                        FROM Departments 
-                        WHERE Departments.department_id = rooms.department_id
-                    ) as department_name, 
-                    is_available 
-                FROM rooms
-                WHERE department_id = (
-                    SELECT department_id 
-                    FROM Departments 
-                    WHERE department_name = ?
+                exec GetRoomByDepartment @department_name = ?
                 )
             ''', (search_value_text,))
             rooms = cursor_01.fetchall()
@@ -118,18 +83,7 @@ def rooms():
         elif search_type == 'IsAvailable':
                 cursor_01 = conn.cursor()
                 cursor_01.execute('''
-                    SELECT room_id,
-                    room_number, 
-                    room_length,
-                    room_width,           
-                    (
-                        SELECT department_name 
-                        FROM Departments 
-                        WHERE Departments.department_id = rooms.department_id
-                    ) as department_name, 
-                    is_available 
-                FROM rooms
-                    WHERE is_available = ?
+                    exec GetRoomByAvailability @is_available = ?
                 ''', (search_value_bool,))
                 rooms = cursor_01.fetchall()
 
@@ -173,18 +127,7 @@ def edit_room(id):
     if request.method == 'GET':
         cursor_01.execute(
             '''
-            SELECT room_id,
-                    room_number, 
-                    room_length,
-                    room_width,           
-                    (
-                        SELECT department_name 
-                        FROM Departments 
-                        WHERE Departments.department_id = rooms.department_id
-                    ) as department_name, 
-                    is_available 
-                FROM rooms
-            WHERE room_id = ?
+            exec GetRoomByID @room_id = ?
             ''', (id,)
         )
         room = cursor_01.fetchone()
@@ -220,13 +163,13 @@ def edit_room(id):
         # Update room data in the database
         cursor_01.execute(
         '''
-        UPDATE rooms
-        SET room_number = ?, 
-            room_length = ?,
-            room_width = ?, 
-            department_id = (SELECT department_id FROM departments WHERE department_name = ?),
-            is_available = ?
-        WHERE room_id = ?
+        exec UpdateRooms
+        @room_number = ?,
+        @room_length = ?,
+        @room_width = ?,
+        @department_name = ?,
+        @is_available = ?,
+        @room_id = ?
         ''', (updated_number, updated_length, updated_width, updated_department_name, updated_status, id)
         )
 

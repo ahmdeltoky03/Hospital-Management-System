@@ -61,155 +61,65 @@ def patients():
         if search_type == 'getAll':
             cursor_01 = conn.cursor()
             cursor_01.execute('''
-                select patient_id,
-                    first_name,
-                    middle_name,
-                    last_name,
-                    date_of_birth,
-                    gender,
-                    patient_entry_date,
-                    phone_number,
-                    (select room_number from rooms where rooms.room_id = patients.room_id) as room_number,
-                    (select bed_number from beds where beds.bed_id = patients.bed_id) as bed_number,
-                    patient_status
-                from patients
+                exec GetAllPatients
             ''')
             patients = cursor_01.fetchall()
 
         elif search_type == 'First Name':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                select patient_id,
-                    first_name,
-                    middle_name,
-                    last_name,
-                    date_of_birth,
-                    gender,
-                    patient_entry_date,
-                    phone_number,
-                    (select room_number from rooms where rooms.room_id = patients.room_id) as room_number,
-                    (select bed_number from beds where beds.bed_id = patients.bed_id) as bed_number,
-                    patient_status
-                from patients
-                where patients.first_name = ?
+            exec GetPatientsWithFirstName @first_name = ?
             ''', (search_value, ))
             patients = cursor_01.fetchall()
 
         elif search_type == 'Full Name':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                select patient_id,
-                    first_name,
-                    middle_name,
-                    last_name,
-                    date_of_birth,
-                    gender,
-                    patient_entry_date,
-                    phone_number,
-                    (select room_number from rooms where rooms.room_id = patients.room_id) as room_number,
-                    (select bed_number from beds where beds.bed_id = patients.bed_id) as bed_number,
-                    patient_status
-                from patients
-                where concat(first_name, ' ', middle_name, ' ', last_name) = ?
+                exec GetPatientsWithFullName @full_name = ?
             ''', (search_value,))
             patients = cursor_01.fetchall()
 
         elif search_type == 'Date Of Birth':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                select patient_id,
-                    first_name,
-                    middle_name,
-                    last_name,
-                    date_of_birth,
-                    gender,
-                    patient_entry_date,
-                    phone_number,
-                    (select room_number from rooms where rooms.room_id = patients.room_id) as room_number,
-                    (select bed_number from beds where beds.bed_id = patients.bed_id) as bed_number,
-                    patient_status
-                from patients
-                where date_of_birth = ?
+                exec GetPatientsWithDateOfBirth @date_of_birth = ?
             ''', (dob, ))
             patients = cursor_01.fetchall()
 
         elif search_type == 'Gender':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                select patient_id,
-                    first_name,
-                    middle_name,
-                    last_name,
-                    date_of_birth,
-                    gender,
-                    patient_entry_date,
-                    phone_number,
-                    (select room_number from rooms where rooms.room_id = patients.room_id) as room_number,
-                    (select bed_number from beds where beds.bed_id = patients.bed_id) as bed_number,
-                    patient_status
-                from patients
-                where gender = ?
+            exec GetPatientsWithGender @gender = ?
+              
             ''', (search_value_gender, ))
             patients = cursor_01.fetchall()
         
         elif search_type == 'Phone Number':
                 if len(search_value) != 11:
                     flash('Phone Number length should be 11 digits', 'danger')
-                if search_value[0:3] not in ('010', '011', '012', '015'):
+                elif search_value[0:3] not in ('010', '011', '012', '015'):
                     flash('Phone Number shoud start with 010 or 011 or 012 or 015', 'danger')
-                cursor_01 = conn.cursor()
-                cursor_01.execute('''
-                    select patient_id,
-                        first_name,
-                        middle_name,
-                        last_name,
-                        date_of_birth,
-                        gender,
-                        patient_entry_date,
-                        phone_number,
-                        (select room_number from rooms where rooms.room_id = patients.room_id) as room_number,
-                        (select bed_number from beds where beds.bed_id = patients.bed_id) as bed_number,
-                        patient_status
-                    from patients
-                    where phone_number = ?
-                ''', (search_value,))
-                patients = cursor_01.fetchall()
+                else:
+                    try:
+                        cursor_01 = conn.cursor()
+                        cursor_01.execute('''
+                            exec GetPatientsWithPhoneNumber @phone_number = ?
+                        ''', (search_value,))
+                        patients = cursor_01.fetchall()
+                    except Exception as e:
+                        flash('Error: ' + str(e), 'danger')
 
         elif search_type == 'Room Number':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                select patient_id,
-                    first_name,
-                    middle_name,
-                    last_name,
-                    date_of_birth,
-                    gender,
-                    patient_entry_date,
-                    phone_number,
-                    (select room_number from rooms where rooms.room_id = patients.room_id) as room_number,
-                    (select bed_number from beds where beds.bed_id = patients.bed_id) as bed_number,
-                    patient_status
-                from patients
-                where room_id = (select room_id from Rooms where Rooms.room_number = ?)
+                exec GetPatientsWithRoomNumber @room_number = ?
             ''', (search_value_room, ))
             patients = cursor_01.fetchall()
 
         elif search_type == 'Bed Number':
             cursor_01 = conn.cursor()
             cursor_01.execute(f'''
-                select patient_id,
-                    first_name,
-                    middle_name,
-                    last_name,
-                    date_of_birth,
-                    gender,
-                    patient_entry_date,
-                    phone_number,
-                    (select room_number from rooms where rooms.room_id = patients.room_id) as room_number,
-                    (select bed_number from beds where beds.bed_id = patients.bed_id) as bed_number,
-                    patient_status
-                from patients
-                where bed_id = (select bed_id from Beds where Beds.bed_number = ?)
+                exec GetPatientsWithBedNumber @bed_number = ?
             ''', (search_value_bed, ))
             patients = cursor_01.fetchall()
 
@@ -261,19 +171,7 @@ def edit_patient(id):
     if request.method == 'GET':
         cursor_01.execute(
             '''
-            select patient_id,
-                first_name,
-                middle_name,
-                last_name,
-                date_of_birth,
-                gender,
-                patient_entry_date,
-                phone_number,
-                (select room_number from rooms where rooms.room_id = patients.room_id) as room_number,
-                (select bed_number from beds where beds.bed_id = patients.bed_id) as bed_number,
-                patient_status
-            from patients
-            where patient_id = ?
+            exec GetPatientsWithID @patient_id = ?
             ''', (id,)
         )
         patient = cursor_01.fetchone()
@@ -322,18 +220,18 @@ def edit_patient(id):
         # Update patient data in the database
         cursor_01.execute(
         '''
-        UPDATE patients
-        SET first_name = ?, 
-            middle_name = ?, 
-            last_name = ?,
-            date_of_birth = ?,
-            gender = ?, 
-            patient_entry_date = ?, 
-            phone_number = ?,
-            room_id = (select room_id from Rooms where Rooms.room_number = ?),
-            bed_id = (select bed_id from Beds where Beds.bed_number = ?),
-            patient_status = ?
-        WHERE patient_id = ?
+        exec UpdatePatients 
+        @first_name = ?,
+        @middle_name = ?,
+        @last_name = ?,,
+        @date_of_birth = ?,
+        @gender = ?,
+        @patient_entry_date = ?,
+        @phone_number = ?,
+        @room_number = ?,
+        @bed_number = ?,
+        @patient_status = ?,
+        @patient_id = ?
         ''', (first_name, middle_name, last_name, date_of_birth, gender, patient_entry_date, phone_number, room_number, bed_number, patient_status, id)
         )
 
