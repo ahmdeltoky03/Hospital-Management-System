@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block billings %}active{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+            
+    <!-- Radio Buttons and Forms -->
+    <div style="display: flex; justify-content: center; flex-direction: row; flex-wrap: wrap;">
+        <!-- Search Form -->
+        <h1 style="color: var(--primary); margin-top: 10px;">Search Billing</h1>
+        <div class="form-section search-billing-form" style="width: 100%; margin-left: auto;">
+            <div class="get_from_database px-2" style="width: 100%;">
+                <form method="GET">
+                    <div class="input-group">
+                        <select id="filter" onchange="updateInputField()" class="form-select border-primary w-5" style="height: 60px;" name="search">
+                            <option value="getAll">Get All</option>
+                            <option value="patient_name">Patient Name</option>
+                            <option value="payment_status">Payment Status</option>
+                        </select>
+                        <select id="dropdownInput" style="display: none;" class="w-5 form-select border-primary" name="value"  name="value_bool">
+                            <option value="True">True</option>
+                            <option value="False">False</option>
+                        </select>
+                        <input type="text" style="display: none;" id="textInput" class="form-control border-primary w-45" placeholder="Keyword" name="value_text">
+                        <button type="submit" class="btn btn-dark border-0 w-25">Search</button>
+                    </div>
+                </form>
+                <div class="div_table" style="margin-top: 10px; text-align: center; max-height: 430px; overflow: auto;">
+                    <table class="table table-hover" style="border-collapse: separate; border-spacing: 2px;">
+                        <thead>
+                            <tr>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Patient Name</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Billing Description</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Billing Value</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Billing Date </th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Payment Status</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">payment_method</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for billing in billings %}
+                            <tr data-id="{{billing_id}}">
+                                <td class="patient_name" style="background-color: #d8e2ea; color: #44677d;">{{ billing.patient_name }}</td>
+                                <td class="billing_description" style="background-color: #d8e2ea; color: #44677d;">{{ billing.billing_description}}</td>
+                                <td class="billing_value" style="background-color: #d8e2ea; color: #44677d;">{{ billing.billing_value }}</td>
+                                <td class="billing_date" style="background-color: #d8e2ea; color: #44677d;">{{ billing.billing_date }}</td>
+                                <td class="payment_status" style="background-color: #d8e2ea; color: #44677d;">{{ billing.payment_status }}</td>
+                                <td class="payment_method" style="background-color: #d8e2ea; color: #44677d;">{{ billing.payment_method }}</td>
+                                <td style="background-color: #d8e2ea; color: #44677d;">
+                                    <div style="display: flex; justify-content: center;">
+                                        <a href="/edit_billing/{{ billing.billing_id }}" style="width: 25px;">
+                                            <i class="fa-solid fa-pen" style="color: #8f8f8f; font-size: 28px;" data-id="1"></i>
+                                        </a>
+                                        <a href="/delete_billing/{{ billing.billing_id }}" style="width: 25px; margin-left: 10px;">
+                                            <i class="fa-solid fa-trash" style="color: #ff0000; font-size: 28px;" data-id="2"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Form -->
+    <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Add billing</h1>
+    <div class="form-section add-billing-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
+        <div class="post_to_database px-2" style="width: 100%;">
+            <div class="bg-white text-center rounded p-4">
+                <form method="POST">
+                    <div class="row g-3" style="display: flex; justify-content: center;">
+                        <div class="col-12 col-sm-6">
+                            <select class="form-select bg-light border-0" style="height: 55px;" name="patient_name">
+                                <option selected>Patient Name</option>
+                                {% for patient_name in patient_names %}
+                                <option>{{ patient_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="Billing Description" style="height: 55px;" name="billing_description">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="Billing Value" style="height: 55px;" name="billing_value">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="date" id="date" data-target-input="nearest">
+                                <input type="text"
+                                class="form-control bg-light border-0 datetimepicker-input"
+                                        placeholder="Purchase Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;" name="billing_date">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <select class="form-select bg-light border-0" style="height: 55px;" name="payment_method">
+                                <option selected>Pending Or Paid Or Overdue </option>
+                                <option>Cash</option>
+                                <option>Insurance</option>
+                                <option>credit</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12 col-sm-6">
+                            <select class="form-select bg-light border-0" style="height: 55px;" name="payment_status">
+                                <option selected>Pending Or Paid Or Overdue </option>
+                                <option>Pending</option>
+                                <option>Paid</option>
+                                <option>Overdue</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12">
+                            <button class="btn btn-primary w-100 py-3" type="submit">Add A Billing</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>            
+    </div>
+</div>
+{% endblock %}

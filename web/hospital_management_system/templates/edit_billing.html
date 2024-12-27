@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block billings %}active{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Edit Form -->
+    <div style="height: 586px; display: flex; justify-content: center; align-items: center;">
+        <div>
+            <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Edit Billings</h1>
+            <div class="form-section add-billing-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
+                <div class="post_to_database px-2" style="width: 100%;">
+                    <div class="bg-white text-center rounded p-4">
+                        <form method="POST">
+                            <div class="row g-3" style="display: flex; justify-content: center;">
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Patient Name" style="height: 55px;" name="Name" value="{{ billing.patient_name }}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="billing_description" style="height: 55px;" name="description" value="{{ billing.billing_description }}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="billing_description" style="height: 55px;" name="Value" value="{{ billing.billing_value }}">
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Edit A Billing</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
