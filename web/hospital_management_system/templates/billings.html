@@ -25,11 +25,13 @@
             <div class="get_from_database px-2" style="width: 100%;">
                 <form method="GET">
                     <div class="input-group">
+                      
                         <select id="filter" onchange="updateInputField()" class="form-select border-primary w-5" style="height: 60px;" name="search">
                             <option value="getAll">Get All</option>
                             <option value="patient_name">Patient Name</option>
                             <option value="payment_status">Payment Status</option>
                         </select>
+
                         <select id="dropdownInput" style="display: none;" class="w-5 form-select border-primary" name="value"  name="value_bool">
                             <option value="True">True</option>
                             <option value="False">False</option>

@@ -33,10 +33,10 @@ def rooms():
             cursor = conn.cursor()
             cursor.execute('''
                 EXEC AddNewRoom
-                    @room_number = ?,
+                    @room_num = ?,
                     @room_length = ?,
                     @room_width = ?,
-                    @department_name = ?,
+                    @dept_name = ?,
                     @is_available = ?
                 ''', (room_number, room_length, room_width, department_name, is_available))
 
@@ -74,7 +74,7 @@ def rooms():
             cursor_01 = conn.cursor()
             cursor_01.execute('''
                 exec GetRoomByDepartment @department_name = ?
-                )
+
             ''', (search_value_text,))
             rooms = cursor_01.fetchall()
 

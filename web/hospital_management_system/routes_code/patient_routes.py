@@ -13,30 +13,23 @@ def patients():
         bed_number = request.form['bed_number']
         patient_status = request.form['patient_status']
         
-        # Get room_id from Rooms table
         cursor = conn.cursor()
-        cursor.execute('SELECT room_id FROM Rooms WHERE room_number = ?', (room_number,))
-        room_id = cursor.fetchone()  # Fetch one result
-        if not room_id:
-            flash('Invalid room number', 'danger')
-            return redirect(url_for('patients'))
-        room_id = room_id[0]  # Extract room_id from the tuple
-        
-        # Get bed_id from Beds table
-        cursor.execute('SELECT bed_id FROM Beds WHERE bed_number = ?', (bed_number,))
-        bed_id = cursor.fetchone()  # Fetch one result
-        if not bed_id:
-            flash('Invalid bed number', 'danger')
-            return redirect(url_for('patients'))
-        bed_id = bed_id[0]  # Extract bed_id from the tuple
-
         # Insert the data into the employees table
         try:
             cursor.execute('''
-                INSERT INTO Patients (first_name, middle_name, last_name, date_of_birth, gender, patient_entry_date, phone_number, room_id, bed_id, patient_status)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-            ''', (first_name, middle_name, last_name, date_of_birth, gender, patient_entry_date, phone_number, room_id, bed_id, patient_status))
-
+                exec AddNewPatient
+                @first_name = ?,
+                @middle_name = ?,
+                @last_name = ?,
+                @date_of_birth = ?,
+                @gender = ?,
+                @patient_entry_date = ?,
+                @phone_number = ?,
+                @room_number = ?,
+                @bed_number = ?,
+                @patient_status = ?
+            ''', (first_name, middle_name, last_name, date_of_birth,gender,
+                  patient_entry_date, phone_number, room_number, bed_number, patient_status))
             conn.commit()
             flash('Patient added successfully!', 'success')
 
@@ -123,6 +116,12 @@ def patients():
             ''', (search_value_bed, ))
             patients = cursor_01.fetchall()
 
+        elif search_type == 'patient Status':
+            cursor_01 = conn.cursor()
+            cursor_01.execute(f'''
+                exec GetPatientsWithStatus @patient_status = ?
+            ''', (search_value, ))
+            patients = cursor_01.fetchall()
         else:
             patients = []  # Default to empty if no search_type is provided
 
@@ -166,9 +165,10 @@ def delete_patient(id):
 
 @app.route('/edit_patient/<int:id>', methods=['GET', 'POST'])
 def edit_patient(id):
-    cursor_01 = conn.cursor()
-
+  
+    
     if request.method == 'GET':
+        cursor_01 = conn.cursor()
         cursor_01.execute(
             '''
             exec GetPatientsWithID @patient_id = ?
@@ -176,24 +176,27 @@ def edit_patient(id):
         )
         patient = cursor_01.fetchone()
 
-        cursor_01 = conn.cursor()
-        cursor_01.execute(
+        if not patient:
+            return "Patient not found", 404
+          
+        cursor_02 = conn.cursor()
+        cursor_02.execute(
             '''
                 select department_name from Departments
             '''
         )
         department_names = [row[0] for row in cursor_01.fetchall()]
 
-        cursor_01 = conn.cursor()
-        cursor_01.execute(
+        cursor_03 = conn.cursor()
+        cursor_03.execute(
             '''
                 select room_number from Rooms
             '''
         )
         rooms = [row[0] for row in cursor_01.fetchall()]
 
-        cursor_01 = conn.cursor()
-        cursor_01.execute(
+        cursor_04 = conn.cursor()
+        cursor_04.execute(
             '''
                 select bed_number from beds
             '''
@@ -218,12 +221,13 @@ def edit_patient(id):
         patient_status = request.form['patient_status']
         
         # Update patient data in the database
-        cursor_01.execute(
+        cursor_05 = conn.cursor()
+        cursor_05.execute(
         '''
         exec UpdatePatients 
         @first_name = ?,
         @middle_name = ?,
-        @last_name = ?,,
+        @last_name = ?,
         @date_of_birth = ?,
         @gender = ?,
         @patient_entry_date = ?,
@@ -232,7 +236,7 @@ def edit_patient(id):
         @bed_number = ?,
         @patient_status = ?,
         @patient_id = ?
-        ''', (first_name, middle_name, last_name, date_of_birth, gender, patient_entry_date, phone_number, room_number, bed_number, patient_status, id)
+        ''', (first_name, middle_name, last_name, date_of_birth, gender, patient_entry_date, phone_number, room_number, bed_number, patient_status,id)
         )
 
         conn.commit()  # Commit changes to the database

@@ -9,11 +9,11 @@ def billings():
         billing_date = request.form['billing_date']
         payment_status = request.form['payment_status']
         payment_method = request.form['payment_method']        
-        payment_status = (
-            1 if payment_status == 'Paid' else 
-            -1 if payment_status == 'Overdue' else 
-            0
-        )
+        # payment_status = (
+        #     1 if payment_status == 'Paid' else 
+        #     -1 if payment_status == 'Overdue' else 
+        #     0
+        # )
         
 
         try:
@@ -187,14 +187,29 @@ def edit_billing(id):
         updated_name = request.form['Name']
         updated_description= request.form['description']
         updated_Value = request.form['Value']      
+
+        cursor_01.execute('''
+            SELECT patient_id
+            FROM Patients
+            WHERE (first_name + ' ' + middle_name + ' ' + last_name) = ?
+        ''', (updated_name,))
+        patient_id = cursor_01.fetchone()[0]
+            
+        cursor_01.execute('''
+            SELECT TOP 1 billing_id
+            FROM billings
+            WHERE patient_id = ?
+        ''', (patient_id,))
+        billing_id = cursor_01.fetchone()[0]
         # Update billing data in the database
         cursor_01.execute(
         '''
         UPDATE billings
-        SET patient_name = ?, 
+        SET  
             billing_description = ?,
-            billing_value = ?, 
-        ''', (updated_name, updated_description, updated_Value, id)
+            billing_value = ?
+        where billing_id = ?
+        ''', (updated_description, updated_Value,billing_id)
         )
 
         conn.commit()  # Commit changes to the database

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block absence %}active{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Edit Form -->
+    <div style="height: 586px; display: flex; justify-content: center; align-items: center;">
+        <div>
+            <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Edit Absence</h1>
+            <div class="form-section add-absence-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
+                <div class="post_to_database px-2" style="width: 100%;">
+                    <div class="bg-white text-center rounded p-4">
+                        <form method="POST" action="{{ url_for('edit_absence', absense_id=absences.absense_id) }}>
+                            <div class="row g-3" style="display: flex; justify-content: center;">
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="First Name" style="height: 55px;" name="absence_name" value="{{absences.absence_name}}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Middle Name" style="height: 55px;" name="reason" value="{{absences.reason}}">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Last Name" style="height: 55px;" name="approved_by" value="{{absences.approved_by}}">
+                                <div class="col-12">
+                                  <a href="{{ url_for('absence', absense_id=absences.absense_id) }}" class="btn btn-danger w-100 py-3">Delete Absence</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

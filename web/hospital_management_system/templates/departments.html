@@ -83,12 +83,7 @@
                             <input type="text" class="form-control bg-light border-0" placeholder="Name" style="height: 55px;" name="name">
                         </div>
                         <div class="col-12 col-sm-6">
-                            <select class="form-select bg-light border-0" style="height: 55px;" name="head">
-                                <option selected>Choose Head</option>
-                                {% for head in heads %}
-                                <option>{{ head.head_name }}</option>
-                                {% endfor %}
-                            </select>
+                          <input type="text" class="form-control bg-light border-0" placeholder="Head" style="height: 55px;" name="head" required>
                         </div>
                         <div class="col-12">
                             <input type="text" class="form-control bg-light border-0" placeholder="Description" style="height: 55px;" name="description">

@@ -5,18 +5,18 @@ def departments():
     if request.method == 'POST':
         department_name = request.form['name']
         department_description = request.form['description']
-        department_haed = request.form['head']
+        department_head = request.form['head']
         pattern = r'(\d+),\s*(.+)'
-        match = re.match(pattern, department_haed)
-        head_id = match.group(1)
-        head_name = match.group(2)
+        match = re.match(pattern, department_head)
+        # head_id = match.group(1)
+        # head_name = match.group(2)
         
         # Execute stored procedure to add department
         try:
             cursor = conn.cursor()
             cursor.execute('''
-                exec NewDepartment @department_name = ?, @department_description = ?, @head_of_department = ?
-                ''', (department_name, department_description, head_id))
+                exec AddNewDepartment @department_name = ?, @department_description = ?, @head_of_department = ?
+                ''', (department_name, department_description, department_head))
 
             conn.commit()
             flash('Department added successfully!', 'success')
@@ -41,7 +41,7 @@ def departments():
         elif search_type == 'departmentName':
             cursor_01 = conn.cursor()
             cursor_01.execute('''
-               exec GetDepartmentByItsName @department_name = ?
+              exec GetDepartmentByItsName @department_name = ?
             ''', (search_value, ))
 
             departments = cursor_01.fetchall()
@@ -75,14 +75,16 @@ def departments():
 
     return render_template('departments.html', departments=departments, heads=heads)
 
-@app.route('/delete_department/<int:id>')
-def delete_department(id):
+@app.route('/delete_department/<int:department_id>')
+def delete_department(department_id):
     cursor_01 = conn.cursor()
     cursor_01.execute(
         '''
             delete from departments where department_id = ?
-        ''', (id,)
+        ''', (department_id,)
     )
+    cursor_01.execute('DELETE FROM Departments WHERE department_id = ?', (department_id,))
+
     conn.commit()  # Commit the deletion to the database
     flash('department deleted successfully!', 'success')
     return redirect('/departments')  # Redirect after successful deletion

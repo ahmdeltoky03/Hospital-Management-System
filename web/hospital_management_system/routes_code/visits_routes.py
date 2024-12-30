@@ -10,9 +10,14 @@ def visits():
         try:
             cursor = conn.cursor()
             cursor.execute('''
+                select patient_id from Patients where concat(first_name, ' ', middle_name, ' ', last_name) = ?;
+                          ''',(patient_name,))
+            patient_id = cursor.fetchone()[0]
+            
+            cursor.execute('''
                 INSERT INTO Visits (patient_id, visit_date, visitors_number)
-                VALUES ((select patient_id from Patients where concat(first_name, ' ', middle_name, ' ', last_name) = ?), ?, ?);
-                ''', (patient_name, visit_date, visitors_number))
+                VALUES (?, ?, ?);
+                ''', (patient_id, visit_date, visitors_number))
 
             conn.commit()
             flash('Visit added successfully!', 'success')
@@ -33,6 +38,7 @@ def visits():
                 exec GetAllVisits
             ''')
             visits = cursor_01.fetchall()
+            cursor_01.close()
 
         elif search_type == 'visitDate':
             cursor_01 = conn.cursor()
@@ -40,6 +46,7 @@ def visits():
                 exec GetVisitsByDate @visit_date = ?
             ''', (search_value_text, ))
             visits = cursor_01.fetchall()
+            cursor_01.close()
 
         else:
             visits = []  # Default to empty if no search_type is provided
@@ -56,7 +63,7 @@ def delete_visit(id):
     )
     conn.commit()  # Commit the deletion to the database
     flash('visit deleted successfully!', 'success')
-    return redirect('/visits')  # Redirect after successful deletion
+    return redirect(url_for('visits'))  # Redirect after successful deletion
 
 @app.route('/edit_visit/<int:id>', methods=['GET', 'POST'])
 def edit_visit(id):
@@ -65,8 +72,8 @@ def edit_visit(id):
     if request.method == 'GET':
         cursor_01.execute(
             '''
-            exec UpdateVisits @patient_id = ?, @visit_id = ?
-            ''', (id, id, )
+            select * from visits where visit_id = ?
+            ''', (id, )
         )
         visit = cursor_01.fetchone()
 
@@ -94,7 +101,7 @@ def edit_visit(id):
                 select patient_id from Patients where concat(first_name, ' ', middle_name, ' ', last_name) = ?
             ''', (patient_name, )
         )
-        patient_id = cursor_01.fetchone()
+        patient_id = cursor_01.fetchone()[0]
         
         # Update visit data in the database
         cursor_01.execute(
@@ -105,7 +112,7 @@ def edit_visit(id):
                 visit_date = ?,
                 visitors_number = ?
             WHERE visit_id = ?;
-        ''', (patient_id, visit_date, visitors_number, id)
+        ''', (patient_id, visit_date,visitors_number, id)
         )
 
         conn.commit()  # Commit changes to the database

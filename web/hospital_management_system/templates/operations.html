@@ -27,6 +27,12 @@
                     <div class="input-group">
                         <select id="filter" onchange="updateInputField()" class="form-select border-primary w-5" style="height: 60px;" name="search">
                             <option value="getAll">Get All</option>
+                            <option value="patient_name">Patient Name</option>
+                            <option value="department_name">Department Name</option>
+                            <option value="success">Is Success</option>
+                            <option value="operation_about">Operation About</option>
+                            <option value="patient_phone_number">Patient Phone Number</option>
+                            <option value="room_number">Room Number</option>
                         </select>
                       
                         <input type="text" style="display: none;" id="textInput" class="form-control border-primary w-45" placeholder="Keyword" name="value_text">
@@ -43,20 +49,34 @@
                                 <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Department Name</th>
                                 <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Room Number</th>
                                 <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Is success ? </th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Options</th>
+
 
                             </tr>
                         </thead>
                         <tbody>
                           {% for operation in operations %}
                           <tr>
-                              <td class="patient-name" style="background-color: #d8e2ea; color: #44677d;">{{ operation.patient_name }}</td>
-                              <td class="operation-about" style="background-color: #d8e2ea; color: #44677d;">{{ operation.operation_about }}</td>
+                              <td class="operation-about" style="background-color: #d8e2ea; color: #44677d;">{{ operation.patient_name }}</td>
+                              <td class="patient-name" style="background-color: #d8e2ea; color: #44677d;">{{ operation.operation_about }}</td>
                               <td class="patient-phone-number" style="background-color: #d8e2ea; color: #44677d;">{{ operation.patient_phone_number }}</td>
                               <td class="department-name" style="background-color: #d8e2ea; color: #44677d;">{{ operation.department_name }}</td>
                               <td class="room-number" style="background-color: #d8e2ea; color: #44677d;">{{ operation.room_number }}</td>
                               <td class="success" style="background-color: #d8e2ea; color: #44677d;">{{ operation.success}}</td>
-                              
-                          </tr>
+                              <td style="background-color: #d8e2ea; color: #44677d;">
+                                <div style="display: flex; justify-content: center;">
+                                    <a href="/edit_operation/{{operations.operation_id }}" style="width: 25px;">
+                                        <i class="fa-solid fa-pen" style="color: #8f8f8f; font-size: 28px;" data-id="1"></i>
+                                    </a>
+                                    <a href="/delete_operation/{{operations.operation_id }}" style="width: 25px; margin-left: 10px;">
+                                        <i class="fa-solid fa-trash" style="color: #ff0000; font-size: 28px;" data-id="2"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            </tr>
+
+                         
+                        
                           {% endfor %}
                       </tbody>
                       </table>
@@ -73,29 +93,35 @@
               <form method="POST">
                 <div class="row g-3" style="display: flex; justify-content: center;">
                     <div class="col-12 col-sm-6">
-                        <input type="text" class="form-control bg-light border-0" placeholder="Heart Surgery" style="height: 55px;" name="operation_about">
+                        <input type="text" class="form-control bg-light border-0" placeholder="Operation About" style="height: 55px;" name="operation_about">
                     </div>
                     <div class="col-12 col-sm-6">
-                      <input type="text" class="form-control bg-light border-0" placeholder="patient_name" style="height: 55px;" name="patient_name">
+                      <input type="text" class="form-control bg-light border-0" placeholder="Patient Name" style="height: 55px;" name="patient_name">
                   </div>
                     <div class="col-12 col-sm-12">
-                        <input type="text" class="form-control bg-light border-0" placeholder="01100000000" style="height: 55px;" name="patient_phone_number">
+                        <input type="text" class="form-control bg-light border-0" placeholder="Phone Number" style="height: 55px;" name="patient_phone_number">
                     </div>
                     <div class="col-12 col-sm-6">
-                        <input type="text" class="form-control bg-light border-0" placeholder="Neurology" style="height: 55px;" name="department_name">
+                        <input type="text" class="form-control bg-light border-0" placeholder="Department Name" style="height: 55px;" name="department_name">
                     </div>
                     <div class="col-12 col-sm-6">
                         <input type="text" class="form-control bg-light border-0" placeholder="R101" style="height: 55px;" name="room_number">
                     </div>
-                    <div class="col-12 col-sm-6">
+                    <!-- <div class="col-12 col-sm-6">
                       <div class="date" id="date" data-target-input="nearest">
                           <input type="text"
                           class="form-control bg-light border-0 datetimepicker-input"
                                   placeholder="Operation Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;" name="operation_date">
                       </div>
+                    </div> -->
+                    <div class="col-12 col-sm-6">
+                      <input type="text" class="form-control bg-light border-0" placeholder="Start Time" style="height: 55px;" name="operation_start_time">
                     </div>
                     <div class="col-12 col-sm-6">
-                      <input type="text" class="form-control bg-light border-0" placeholder="1" style="height: 55px;" name="success">
+                      <input type="text" class="form-control bg-light border-0" placeholder="End Time" style="height: 55px;" name="operation_end_time">
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <input type="text" class="form-control bg-light border-0" placeholder="is success ? " style="height: 55px;" name="success">
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary w-100 py-3" type="submit">Add Operation</button>
@@ -106,3 +132,5 @@
         </div>            
     </div>
 {% endblock %}
+
+

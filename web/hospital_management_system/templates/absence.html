@@ -28,8 +28,15 @@
                         <select id="filter" onchange="updateInputField()" class="form-select border-primary w-5" style="height: 60px;" name="search">
                             <option value="getAll">Get All</option>
                             <option value="absenceDate">Absence Date</option>
+                            <option value="absenceReason">Absence Reason</option>
+                            <option value="absenceStatus">Absence Status</option>
+                            <option value="absenceName">Absence Name</option>
                         </select>
-                      
+                        <select id="dropdownInput" style="display: none;" class="w-5 form-select border-primary" name="value"  name="value_bool">
+                          <option value="True">True</option>
+                          <option value="False">False</option>
+                        </select>
+
                         <input type="text" style="display: none;" id="textInput" class="form-control border-primary w-45" placeholder="Keyword" name="value_text">
                         <button type="submit" class="btn btn-dark border-0 w-25">Search</button>
                     </div>
@@ -41,6 +48,8 @@
                                 <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Absence Name</th>
                                 <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Absence Reason</th>
                                 <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Supervisor Name</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Options</th>
+
 
                             </tr>
                         </thead>
@@ -50,6 +59,16 @@
                               <td class="absence-name" style="background-color: #d8e2ea; color: #44677d;">{{ absence.absence_name }}</td>
                               <td class="absence-reason" style="background-color: #d8e2ea; color: #44677d;">{{ absence.absence_reason }}</td>
                               <td class="supervisor-name" style="background-color: #d8e2ea; color: #44677d;">{{ absence.supervisor_name }}</td>
+                              <td style="background-color: #d8e2ea; color: #44677d;">
+                                <div style="display: flex; justify-content: center;">
+                                    <a href="/edit_absence/{{absences.absence_id }}" style="width: 25px;">
+                                        <i class="fa-solid fa-pen" style="color: #8f8f8f; font-size: 28px;" data-id="1"></i>
+                                    </a>
+                                    <a href="/delete_absence/{{absences.absence_id  }}" style="width: 25px; margin-left: 10px;">
+                                        <i class="fa-solid fa-trash" style="color: #ff0000; font-size: 28px;" data-id="2"></i>
+                                    </a>
+                                </div>
+                            </td>
                               
                           </tr>
                           {% endfor %}

@@ -46,7 +46,7 @@ def machines():
     elif request.method == 'GET':
         cursor_01 = None  # Initialize to avoid unbound variable error
         search_type = request.args.get('search')
-        search_value = request.args.get('value')
+        search_value = request.args.get('value_text')
         
         if search_type == 'getAll':
             cursor_01 = conn.cursor()
@@ -163,15 +163,17 @@ def edit_machine(id):
         cursor_01.execute(
         '''
         exec UpdateMachines
+        @machine_id = ?,
         @updated_name = ?,
         @time_of_purchase = ?,
         @department_name = ?,
         @room_number = ?,
         @price = ?,
         @about = ?,
-        @is_working = ?,
-        ''', (updated_name, updated_time_of_purchase, updated_department, updated_room, updated_price, updated_about, updated_status, id)
+        @is_working = ?
+        ''', (id,updated_name, updated_time_of_purchase, updated_department, updated_room, updated_price, updated_about, updated_status)
         )
+        
 
         conn.commit()  # Commit changes to the database
 

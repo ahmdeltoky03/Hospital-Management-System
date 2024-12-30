@@ -68,30 +68,21 @@
         </div>
     </div>
     
-    <!-- Add Form -->
+    <!-- Add Visit Form -->
     <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Add Visit</h1>
     <div class="form-section add-visit-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
         <div class="post_to_database px-2" style="width: 100%;">
-            <div class="bg-white text-center rounded p-4">
+            <div class="bg-white text-center rounded p-4 shadow-sm">
                 <form method="POST">
                     <div class="row g-3" style="display: flex; justify-content: center;">
-                        <div class="col-12 col-sm-6">
-                            <select class="form-select bg-light border-0" style="height: 55px;" name="patient_name">
-                                <option selected>Choose Patient Name</option>
-                                {% for patient_name in visits %}
-                                    <option>{{ patient_name[1] }}</option>
-                                {% endfor %}
-                            </select>
+                        <div class="col-12 col-sm-6 mb-3">
+                            <input type="text" class="form-control bg-light border-0" placeholder="patient_name" style="height: 55px;" name="patient_name">
                         </div>
-                        <div class="col-12 col-sm-6">
-                            <div class="date" id="date" data-target-input="nearest">
-                                <input type="text"
-                                class="form-control bg-light border-0 datetimepicker-input"
-                                        placeholder="Visit Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;" name="visit_date">
-                            </div>
+                        <div class="col-12 col-sm-6 mb-3">
+                            <input type="date" class="form-control bg-light border-0" placeholder="visit_date" style="height: 55px;" name="visit_date">
                         </div>
-                        <div class="col-12 col-sm-12">
-                            <input type="number" class="form-control bg-light border-0" placeholder="Visitors Number" style="height: 55px;" name="visitors_number">
+                        <div class="col-12 col-sm-6 mb-3">
+                            <input type="number" class="form-control bg-light border-0" placeholder="visitors_number" style="height: 55px;" name="visitors_number">
                         </div>
                         <div class="col-12">
                             <button class="btn btn-primary w-100 py-3" type="submit">Add A Visit</button>
