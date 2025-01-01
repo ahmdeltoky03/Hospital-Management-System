@@ -177,9 +177,6 @@ def edit_billing(id):
         )
         patient_names = [row[0] for row in cursor_01.fetchall()]
 
-        if not billing:
-            return "Machine not found", 404
-
 
         return render_template('edit_billing.html', billing=billing, patient_names=patient_names)
     
@@ -209,7 +206,7 @@ def edit_billing(id):
             billing_description = ?,
             billing_value = ?
         where billing_id = ?
-        ''', (updated_description, updated_Value,billing_id)
+        ''', (updated_description, updated_Value,billing_id, id)
         )
 
         conn.commit()  # Commit changes to the database

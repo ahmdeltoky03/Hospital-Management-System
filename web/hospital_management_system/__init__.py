@@ -2,7 +2,7 @@
 from flask import Flask
 import pyodbc
 
-server = 'DESKTOP-HG14PB9'       # e.g., localhost or SERVER_NAME
+server = 'DESKTOP-LFM874L\SQLEXPRESS'       # e.g., localhost or SERVER_NAME
 database = 'HOSPITAL'   # e.g., TestDB
 driver = "ODBC Driver 17 for SQL Server"  # Use an available ODBC driver
 
