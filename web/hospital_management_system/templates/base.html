@@ -48,6 +48,8 @@
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav ms-auto py-0">
                                 <a href="{{ url_for('home') }}" class="nav-item nav-link {% block home %}{% endblock %}">Home</a>
+                                <a href="{{ url_for('chat') }}" class="nav-item nav-link {% block chat %}{% endblock %}">Chat</a>
+
                                 <a href="{{ url_for('departments') }}" class="nav-item nav-link {% block departments %}{% endblock %}">Departments</a>
                                 <a href="{{ url_for('machines') }}" class="nav-item nav-link {% block machines %}{% endblock %}">Machines</a>
                                 <a href="{{ url_for('rooms') }}" class="nav-item nav-link {% block rooms %}{% endblock %}">Rooms</a>

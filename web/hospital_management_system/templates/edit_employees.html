@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block employees %}active{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Edit Form -->
+    <div style="height: 586px; display: flex; justify-content: center; align-items: center;">
+        <div>
+            <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Edit Employee</h1>
+            <div class="form-section add-employee-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
+                <div class="post_to_database px-2" style="width: 100%;">
+                    <div class="bg-white text-center rounded p-4">
+                        <form method="POST">
+                          <div class="row g-3" style="display: flex; justify-content: center;">
+                            <div class="col-12 col-sm-6">
+                                <input type="text" class="form-control bg-light border-0" placeholder="First Name" style="height: 55px;" name="first_name" value="{{ employee.first_name }}">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <input type="text" class="form-control bg-light border-0" placeholder="Middle Name" style="height: 55px;" name="middle_name" value="{{ employee.middle_name }}">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <input type="text" class="form-control bg-light border-0" placeholder="Last Name" style="height: 55px;" name="last_name" value="{{ employee.last_name}}">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="date" id="date1" data-target-input="nearest">
+                                    <input type="text" class="form-control bg-light border-0 datetimepicker-input" 
+                                           placeholder="Date Of Birth" data-target="#date1" data-toggle="datetimepicker" 
+                                           style="height: 55px;" name="date_of_birth" value="{{ employee.date_of_birth }}">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <input type="text" class="form-control bg-light border-0" placeholder="gender" style="height: 55px;" name="gender" value="{{ employee.gender}}">
+                            </div>
+    
+                            <div class="col-12 col-sm-6">
+                              <input type="text" class="form-control bg-light border-0" placeholder="salary" style="height: 55px;" name="salary" value="{{ employee.salary }}">
+                            </div>
+    
+                            <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="hire_date" style="height: 55px;" name="hire_date" value="{{ employee.hire_date }}">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <input type="text" class="form-control bg-light border-0" placeholder="weekly_hours" style="height: 55px;" name="weekly_hours" value="{{ employee.weekly_hours }}">
+                            </div>
+                        
+                            <div class="col-12 col-sm-6">
+                                <input type="text" class="form-control bg-light border-0" placeholder="employee_address" style="height: 55px;" name="employee_address" value="{{ employee.address }}">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <input type="text" class="form-control bg-light border-0" placeholder="phone_number" style="height: 55px;" name="phone_number" value="{{ employee.phone_number}}">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="manager_name" style="height: 55px;" name="manager_name" value="{{ employee.manager_name }}">
+                            </div>
+    
+                            <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="performance_rate" style="height: 55px;" name="performance_rate" value="{{ employee.performance_rate }}">
+                            </div>
+    
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Add An Employee</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

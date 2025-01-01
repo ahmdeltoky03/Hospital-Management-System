@@ -1,97 +1,181 @@
+
 {% extends 'base.html' %}
 
 {% block employees %}active{% endblock %}
 
 {% block content %}
-<div class="main-footer px-5">
-    <div class="post_to_database px-2">
-        <div class="bg-white text-center rounded p-5">
-            <h1 class="mb-4">Add An Employee</h1>
-            <form>
-                <div class="row g-3">
-                    <div class="col-12 col-sm-6">
-                        <select class="form-select bg-light border-0" style="height: 55px;">
-                            <option selected>Choose Department</option>
-                            <option value="1">Department 1</option>
-                            <option value="2">Department 2</option>
-                            <option value="3">Department 3</option>
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+            
+    <!-- Radio Buttons and Forms -->
+    <div style="display: flex; justify-content: center; flex-direction: row; flex-wrap: wrap;">
+        <!-- Search Form -->
+        <h1 style="color: var(--primary); margin-top: 10px;">Search For Employee</h1>
+        <div class="form-section search-employee-form" style="width: 100%; margin-left: auto;">
+            <div class="get_from_database px-2" style="width: 100%;">
+                <form method="GET">
+                    <div class="input-group">
+                        <select id="filter" onchange="updateInputField();" class="form-select border-primary w-5" style="height: 60px;" name="search">
+                            <option value="getAll">Get All</option>
+                            <option value="first_name">First Name</option>
+                            <option value="full_name">Full Name</option>
+                            <option value="gender">Gender</option>
+                            <option value="weekly_hours">Weekly Hours</option>
+                            <option value="address">Address</option>
+                            <option value="performance_rate">Performance Rate</option>
+
                         </select>
+
+                        <!-- <select id="dropdownInput" style="display: none;" class="w-5 form-select border-primary" name="value_gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select> -->
+
+                        <input type="text" style="display: none;" id="textInput" class="form-control border-primary w-45" placeholder="Keyword" name="value_text">
+                        <button type="submit" class="btn btn-dark border-0 w-25">Search</button>
                     </div>
-                    <div class="col-12 col-sm-6">
-                        <select class="form-select bg-light border-0" style="height: 55px;">
-                            <option selected>Select Doctor</option>
-                            <option value="1">Doctor 1</option>
-                            <option value="2">Doctor 2</option>
-                            <option value="3">Doctor 3</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <input type="text" class="form-control bg-light border-0" placeholder="Your Name" style="height: 55px;">
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <input type="email" class="form-control bg-light border-0" placeholder="Your Email" style="height: 55px;">
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="date" id="date" data-target-input="nearest">
-                            <input type="text"
-                                class="form-control bg-light border-0 datetimepicker-input"
-                                placeholder="Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;">
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="time" id="time" data-target-input="nearest">
-                            <input type="text"
-                                class="form-control bg-light border-0 datetimepicker-input"
-                                placeholder="Time" data-target="#time" data-toggle="datetimepicker" style="height: 55px;">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3" type="submit">Add An Employee</button>
-                    </div>
+                </form>
+                <div class="div_table" style="margin-top: 10px; text-align: center; max-height: 430px; overflow: auto;">
+                    <table class="table table-hover" style="border-collapse: separate; border-spacing: 2px;">
+                        <thead>
+                            <tr>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">First Name</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Middle Name</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Last Name</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Date Of Birth</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Gender</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Salary</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Hire Date</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Weekly Hours</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Address </th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Phone Number</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Manager Name</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Performance Rate</th>
+                                <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for employee in employees %}
+                            <tr data-id="{{employee_id}}">
+                                <td class="first_name" style="background-color: #d8e2ea; color: #44677d;">{{ employee.first_name }}</td>
+                                <td class="middle_name" style="background-color: #d8e2ea; color: #44677d;">{{ employee.middle_name }}</td>
+                                <td class="last_name" style="background-color: #d8e2ea; color: #44677d;">{{ employee.last_name}}</td>
+                                <td class="date_of_birth" style="background-color: #d8e2ea; color: #44677d;">{{ employee.date_of_birth }}</td>
+                                <td class="gender" style="background-color: #d8e2ea; color: #44677d;">{{ employee.gender }}</td>
+                                <td class="salary" style="background-color: #d8e2ea; color: #44677d;">{{ employee.salary }}</td>
+
+                                <td class="hire_date" style="background-color: #d8e2ea; color: #44677d;">{{ employee.hire_date }}</td>
+                                <td class="weekly_hours" style="background-color: #d8e2ea; color: #44677d;">{{ employee.weekly_hours }}</td>
+                                <td class="address" style="background-color: #d8e2ea; color: #44677d;">{{ employee.address }}</td>
+                                <td class="phone_number" style="background-color: #d8e2ea; color: #44677d;">{{ employee.phone_number }}</td>
+                                <td class="manager_name" style="background-color: #d8e2ea; color: #44677d;">{{ employee.manager_name }}</td>
+                                <td class="performance_rate" style="background-color: #d8e2ea; color: #44677d;">{{ employee.performance_rate }}</td>
+
+                                <td style="background-color: #d8e2ea; color: #44677d;">
+                                    <div style="display: flex;">
+
+                                      <a href="/edit_employee/{{ employee.employee_id}}" style="width: 25px;">
+                                        <i class="fa-solid fa-pen" style="color: #8f8f8f; font-size: 28px;" data-id="1"></i>
+                                      </a>
+                                      <a href="/delete_employee/{{ employee.employee_id }}" style="width: 25px; margin-left: 10px;">
+                                        <i class="fa-solid fa-trash" style="color: #ff0000; font-size: 28px;" data-id="2"></i>
+                                      </a>
+                                      <!-- <a href='/edit_employee', id=employee.employee_id) }}" class="btn btn-primary">Edit</a>
+                                      <form method="POST" action="{{ url_for('delete_employee', id=employee.phone_number) }}" style="display:inline;">
+                                          <button type="submit" class="btn btn-danger">Delete</button>
+                                      </form> -->
+                                    </div>
+
+                                    
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     
-    <div class="get_from_database px-2">
-        <div class="">
-            <div class="input-group">
-                <select class="form-select border-primary w-5" style="height: 60px;">
-                    <option selected>Department</option>
-                    <option value="1">Department 1</option>
-                    <option value="2">Department 2</option>
-                    <option value="3">Department 3</option>
-                </select>
-                <select class="form-select border-primary w-5" style="height: 60px;">
-                    <option selected>Filter Type</option>
-                    <option value="min">Less Than</option>
-                    <option value="max">More Than</option>
-                    <option value="equal">Equal</option>
-                </select>
-                <input type="text" class="form-control border-primary w-45" placeholder="Keyword">
-                <button class="btn btn-dark border-0 w-25">Search</button>
+
+
+						
+    <!-- Add Form -->
+    <h1 style="color: var(--primary); margin-top: 10px; text-align: center;">Add Employee</h1>
+    <div class="form-section add-employee-form" style="width: 100%; margin-left: auto; margin-bottom: 10px;">
+        <div class="post_to_database px-2" style="width: 100%;">
+            <div class="bg-white text-center rounded p-4">
+                <form method="POST">
+                    <div class="row g-3" style="display: flex; justify-content: center;">
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="First Name" style="height: 55px;" name="first_name">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="Middle Name" style="height: 55px;" name="middle_name">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="Last Name" style="height: 55px;" name="last_name">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="date" id="date1" data-target-input="nearest">
+                                <input type="text" class="form-control bg-light border-0 datetimepicker-input" 
+                                       placeholder="Date Of Birth" data-target="#date1" data-toggle="datetimepicker" 
+                                       style="height: 55px;" name="date_of_birth">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <input type="text" class="form-control bg-light border-0" placeholder="gender" style="height: 55px;" name="gender">
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                          <input type="text" class="form-control bg-light border-0" placeholder="salary" style="height: 55px;" name="salary">
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                        <input type="text" class="form-control bg-light border-0" placeholder="hire_date" style="height: 55px;" name="hire_date">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="weekly_hours" style="height: 55px;" name="weekly_hours">
+                        </div>
+                    
+                        <div class="col-12 col-sm-6">
+                            <input type="text" class="form-control bg-light border-0" placeholder="employee_address" style="height: 55px;" name="employee_address">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <input type="text" class="form-control bg-light border-0" placeholder="phone_number" style="height: 55px;" name="phone_number">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                        <input type="text" class="form-control bg-light border-0" placeholder="manager_name" style="height: 55px;" name="manager_name">
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                        <input type="text" class="form-control bg-light border-0" placeholder="performance_rate" style="height: 55px;" name="performance_rate">
+                        </div>
+
+                        <div class="col-12">
+                            <button class="btn btn-primary w-100 py-3" type="submit">Add An Employee</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        <div class="div_table" style="margin-top: 10px; text-align: center;">
-            <table class="table table-hover" style="border-collapse: separate; border-spacing: 2px;">
-                <thead>
-                    <tr>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Type</th>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Column heading</th>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Column heading</th>
-                        <th style="background-color: white; color: black; font-weight: bold; font-size: 18px;">Column heading</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="background-color: #d8e2ea;">Dark</td>
-                        <td style="background-color: #d8e2ea;">Column content</td>
-                        <td style="background-color: #d8e2ea;">Column content</td>
-                        <td style="background-color: #d8e2ea;">Column content</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        </div>            
     </div>
 </div>
 {% endblock %}
+
+
+
+
+

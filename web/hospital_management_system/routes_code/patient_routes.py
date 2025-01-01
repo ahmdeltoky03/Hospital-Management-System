@@ -175,6 +175,7 @@ def edit_patient(id):
             ''', (id,)
         )
         patient = cursor_01.fetchone()
+        cursor_01.close()
 
         if not patient:
             return "Patient not found", 404
@@ -185,7 +186,8 @@ def edit_patient(id):
                 select department_name from Departments
             '''
         )
-        department_names = [row[0] for row in cursor_01.fetchall()]
+        department_names = [row[0] for row in cursor_02.fetchall()]
+        cursor_02.close()
 
         cursor_03 = conn.cursor()
         cursor_03.execute(
@@ -193,7 +195,8 @@ def edit_patient(id):
                 select room_number from Rooms
             '''
         )
-        rooms = [row[0] for row in cursor_01.fetchall()]
+        rooms = [row[0] for row in cursor_03.fetchall()]
+        cursor_03.close()
 
         cursor_04 = conn.cursor()
         cursor_04.execute(
@@ -201,8 +204,10 @@ def edit_patient(id):
                 select bed_number from beds
             '''
         )
-        beds = [row[0] for row in cursor_01.fetchall()]
-
+        
+        beds = [row[0] for row in cursor_04.fetchall()]
+        cursor_04.close()
+        
         if not patient:
             return "patient not found", 404
 

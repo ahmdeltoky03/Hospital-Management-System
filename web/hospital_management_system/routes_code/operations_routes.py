@@ -85,10 +85,6 @@ def operations():
           
         elif search_type == 'patient_phone_number':
           cursor_01 = conn.cursor()
-          if success == 1:
-            search_value_text = 1
-          else:
-            search_value_text = 0
           cursor_01.execute('''
                             exec GetOperationsByPatientPhoneNumber ?;
                             ''', (search_value_text,))
