@@ -129,7 +129,8 @@ def run(api, question):
         )
         structured_llm = llm.with_structured_output(QueryOutput)
         result = structured_llm.invoke(prompt)
-        query = result["query"].replace("LIMIT 10", "TOP 10")
+        # query = result["query"].replace("LIMIT 10", "TOP 10")
+        query = result["query"].replace("LIMIT", "TOP")
         return {"query": result["query"]}
 
     query = write_query({"question": f"{question}"})
