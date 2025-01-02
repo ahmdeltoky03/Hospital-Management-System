@@ -7,19 +7,23 @@ A hospital database project designed to manage and integrate hospital operations
 https://github.com/user-attachments/assets/c33823ae-7d6a-4f2e-b4f1-ed1edf635b79
 
 
-You can download or view the demo video here: [Project Demo Video](path/to/video.mp4)
+You can download or view the demo video here: [Project Demo Video](https://github.com/user-attachments/assets/c33823ae-7d6a-4f2e-b4f1-ed1edf635b79)
 
 ## 🛠️ **Technologies Used**
 
-### Backend Technologies
-- <img src="https://cdn-icons-png.flaticon.com/512/5968/5968364.png" alt="SQL Server" style="width: 30px; height: 30px;"/> **Microsoft SQL Server**:  
-   The primary database used for storing and managing all hospital-related data, ensuring scalability and reliability.
 
-- <img src="https://img.icons8.com/ios/50/000000/database.png" alt="Stored Procedures" style="width: 30px; height: 30px;"/> **Stored Procedures**:  
+### Backend Technologies
+- <img src="https://github.com/user-attachments/assets/a384b2ec-d648-4922-987f-7ba237f32fc4" alt="SQL Server" style="width: 30px; height: 30px;"/> **Microsoft SQL Server**:  
+   The primary database used for storing and managing all hospital-related data, ensuring scalab!
+ility and reliability.
+
+
+- <img src="https://github.com/user-attachments/assets/52ffb9dc-70c1-48b0-ba2e-1740b6cc6a15" alt="Stored Procedures" style="width: 30px; height: 30px;"/> **Stored Procedures**:  
    Used for efficiently handling CRUD operations (Create, Read, Update, Delete) across all tabs, optimizing performance.
 
-- <img src="https://img.icons8.com/ios/50/000000/lock.png" alt="Triggers" style="width: 30px; height: 30px;"/> **Triggers**:  
+- <img src="https://csveda.com/wp-content/uploads/2020/05/PLSQL-Trigger-768x612.jpg" alt="Triggers" style="width: 30px; height: 30px;"/> **Triggers**:  
    Automated mechanisms to maintain data integrity, such as logging changes or performing additional actions when certain events occur.
+
 
 ### Frontend Technologies
 - <img src="https://img.icons8.com/fluency/48/000000/html-5.png" alt="HTML5" style="width: 30px; height: 30px;"/> **HTML/CSS/JavaScript**:  
@@ -32,7 +36,7 @@ You can download or view the demo video here: [Project Demo Video](path/to/video
 - <img src="https://img.icons8.com/fluency/48/000000/python.png" alt="PyODBC" style="width: 30px; height: 30px;"/> **PyODBC**:  
    A Python library that connects the Flask backend to the Microsoft SQL Server database, enabling smooth communication.
 
-- <img src="https://img.icons8.com/fluency/48/000000/flask.png" alt="Flask" style="width: 30px; height: 30px;"/> **Flask**:  
+- <img src="https://github.com/user-attachments/assets/56e8dad8-27f1-4a6f-b420-d4635680382d" alt="Flask" style="width: 30px; height: 30px;"/> **Flask**:  
    The web application framework that handles routing, user requests, and serves as the foundation of the backend.
 
 - <img src="https://styles.redditmedia.com/t5_7tpn6r/styles/communityIcon_vw08a423ptxa1.png" alt="LangChain" style="width: 30px; height: 30px;"/> **LangChain (RAG)**:  
@@ -211,7 +215,7 @@ The **About Us Tab** provides information about the development team and the pur
 Our dedicated team of developers and contributors has worked tirelessly to bring this hospital management system to life. Below are the team members responsible for the project:
 
 ### . IBrahim Hisham 
-- **Contact**: TODO
+- **Contact**: https://github.com/Ibrahim2021Hisham
 
 ### . Ahmed Eltokhy  
 - **Contact**: https://github.com/ahmdeltoky03
