@@ -1,3 +1,0 @@
-TODO:
-    authentication & authorization
-    chatbot menu and itegration with Gemini API
