@@ -5,6 +5,37 @@ A hospital database project designed to manage and integrate hospital operations
 
 https://github.com/user-attachments/assets/c33823ae-7d6a-4f2e-b4f1-ed1edf635b79
 
+
+## 🚀 Getting Started
+
+To be familiar with this project and set it up, you need to ensure the required dependencies are installed.
+
+#### Prerequisites
+  - Python **3.8** or above (preferably **Miniconda** or **Anaconda**)
+  - Pip (Python package installer)
+
+### Installation Steps
+
+1 - Clone the repository: 
+
+      git clone https://github.com/eslam-khalifa/Hospital-Management-System.git
+      cd hospital-management-system
+2 - Install the required python packages:
+
+      pip install flask pyodbc langchain langchain-mistralai langchain-community
+3 - Run the application:
+
+      python app.py
+
+4 - Set up your Microsoft SQL Server database and update the connection details in the project.
+      
+      open __init__.py set server = your_own_server_name
+      database = 'HOSPITAL'   # database_name
+      driver = "ODBC Driver 17 for SQL Server"  # use an available ODBC driver
+    
+5 - Open your web browser and navigate to http://127.0.0.1:5000
+
+
 ## 🛠️ **Technologies Used**
 
 ### Frontend Technologies
@@ -225,34 +256,6 @@ Our dedicated team of developers and contributors has worked tirelessly to bring
 - **GitHub**: https://github.com/mohammed-karam
 
 ---
-## 🚀 Getting Started
-
-To get familiar with this project and set it up, you need to ensure the required dependencies are installed.
-
-#### Prerequisites
-  - Python **3.8** or above (preferably **Miniconda** or **Anaconda**)
-  - Pip (Python package installer)
-
-### Installation Steps
-
-1 - Clone the repository: 
-
-      git clone https://github.com/eslam-khalifa/Hospital-Management-System.git
-      cd hospital-management-system
-2 - Install the required python packages:
-
-      pip install flask pyodbc langchain langchain-mistralai langchain-community
-3 - Run the application:
-
-      python app.py
-
-4 - Set up your Microsoft SQL Server database and update the connection details in the project.
-      
-      open __init__.py set server = your_own_server_name
-      database = 'HOSPITAL'   # database_name
-      driver = "ODBC Driver 17 for SQL Server"  # use an available ODBC driver
-    
-5 - Open your web browser and navigate to http://127.0.0.1:5000
 
 ## 🛠️ **Upcoming Features**
 
