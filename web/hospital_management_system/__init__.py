@@ -2,13 +2,13 @@
 from flask import Flask
 import pyodbc
 
-server = 'DESKTOP-LFM874L\SQLEXPRESS'       # e.g., localhost or SERVER_NAME
+server = 'DESKTOP-SOG9J7V'       # e.g., localhost or SERVER_NAME
 database = 'HOSPITAL'   # e.g., TestDB
 driver = "ODBC Driver 17 for SQL Server"  # Use an available ODBC driver
 
 app = Flask(__name__) # to create an instance of the web application
 conn = pyodbc.connect(
-    'DRIVER={ODBC Driver 17 for SQL Server};'
+    f'DRIVER={driver};'
     f'SERVER={server};'
     f'DATABASE={database};'
     'Trusted_Connection=yes;'

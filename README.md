@@ -3,55 +3,47 @@ A hospital database project designed to manage and integrate hospital operations
 
 ## 🎥 Project Demo
 
-
 https://github.com/user-attachments/assets/c33823ae-7d6a-4f2e-b4f1-ed1edf635b79
-
-
-You can download or view the demo video here: [Project Demo Video](https://github.com/user-attachments/assets/c33823ae-7d6a-4f2e-b4f1-ed1edf635b79)
 
 ## 🛠️ **Technologies Used**
 
+### Frontend Technologies
+- #### HTML/CSS/JavaScript:  
+   Implements a clean, intuitive, and interactive interface to ensure a seamless user experience.
 
-### Backend Technologies
-- <img src="https://github.com/user-attachments/assets/a384b2ec-d648-4922-987f-7ba237f32fc4" alt="SQL Server" style="width: 30px; height: 30px;"/> **Microsoft SQL Server**:  
+- #### Bootstrap Framework:  
+   Utilized for responsive and consistent design, making the application visually appealing and mobile-friendly.
+
+### Backend (Integration) Technologies
+- #### Microsoft SQL Server:  
    The primary database used for storing and managing all hospital-related data, ensuring scalab!
 ility and reliability.
 
-
-- <img src="https://github.com/user-attachments/assets/52ffb9dc-70c1-48b0-ba2e-1740b6cc6a15" alt="Stored Procedures" style="width: 30px; height: 30px;"/> **Stored Procedures**:  
+- #### Stored Procedures:  
    Used for efficiently handling CRUD operations (Create, Read, Update, Delete) across all tabs, optimizing performance.
 
-- <img src="https://csveda.com/wp-content/uploads/2020/05/PLSQL-Trigger-768x612.jpg" alt="Triggers" style="width: 30px; height: 30px;"/> **Triggers**:  
+- #### Triggers:  
    Automated mechanisms to maintain data integrity, such as logging changes or performing additional actions when certain events occur.
 
-
-### Frontend Technologies
-- <img src="https://img.icons8.com/fluency/48/000000/html-5.png" alt="HTML5" style="width: 30px; height: 30px;"/> **HTML/CSS/JavaScript**:  
-   Implements a clean, intuitive, and interactive interface to ensure a seamless user experience.
-
-- <img src="https://img.icons8.com/fluency/48/000000/bootstrap.png" alt="Bootstrap" style="width: 30px; height: 30px;"/> **Bootstrap Framework**:  
-   Utilized for responsive and consistent design, making the application visually appealing and mobile-friendly.
-
-### Integration Technologies
-- <img src="https://img.icons8.com/fluency/48/000000/python.png" alt="PyODBC" style="width: 30px; height: 30px;"/> **PyODBC**:  
-   A Python library that connects the Flask backend to the Microsoft SQL Server database, enabling smooth communication.
-
-- <img src="https://github.com/user-attachments/assets/56e8dad8-27f1-4a6f-b420-d4635680382d" alt="Flask" style="width: 30px; height: 30px;"/> **Flask**:  
+- #### Flask:  
    The web application framework that handles routing, user requests, and serves as the foundation of the backend.
 
-- <img src="https://styles.redditmedia.com/t5_7tpn6r/styles/communityIcon_vw08a423ptxa1.png" alt="LangChain" style="width: 30px; height: 30px;"/> **LangChain (RAG)**:  
+- #### PyODBC:  
+   A Python library that connects the Flask backend to the Microsoft SQL Server database, enabling smooth communication.
+
+- #### LangChain (RAG):  
    Facilitates enhanced data retrieval capabilities, providing intelligent querying when integrated into the system.
 
 
 ## 📂 Project Parts
 
 
-## 🏠 Home Tab
+### 🏠 Home Tab
 
-### Overview
+#### Overview
 The **Home Tab** serves as the landing page and acts as the welcome screen for users. It provides quick access to key features of the hospital management system, including employee search, appointments, and other sections.
 
-### Features
+#### Features
 
 - **Welcome Message**  
    Greets the user with a personalized welcome message.
@@ -68,7 +60,7 @@ The **Home Tab** serves as the landing page and acts as the welcome screen for u
 - **System Notifications**  
    Displays any important system updates or alerts, such as pending approvals or maintenance schedules.
 
-### Example Use Case
+#### Example Use Case
 
 - **Welcome Screen and Navigation**  
    Upon logging in, the user is welcomed and can easily navigate to find specific employees, manage appointments, or check other system tabs. 
@@ -214,26 +206,32 @@ The **About Us Tab** provides information about the development team and the pur
 
 Our dedicated team of developers and contributors has worked tirelessly to bring this hospital management system to life. Below are the team members responsible for the project:
 
-### . IBrahim Hisham 
-- **Contact**: https://github.com/Ibrahim2021Hisham
+### . Ibrahim Hisham 
+- **GitHub**: https://github.com/Ibrahim2021Hisham
 
 ### . Ahmed Eltokhy  
-- **Contact**: https://github.com/ahmdeltoky03
+- **GitHub**: https://github.com/ahmdeltoky03
 
 ### . Ahmed Adel  
-- **Contact**: https://github.com/ahmeda335
+- **GitHub**: https://github.com/ahmeda335
 
 ### . Eslam Khalifa
-- **Contact**: https://github.com/eslam-khalifa
+- **GitHub**: https://github.com/eslam-khalifa
 
 ### . Mohamed Rehab 
-- **Contact**: https://github.com/mohammedrehab288
+- **GitHub**: https://github.com/mohammedrehab288
 
 ### . Mohamed Karam  
-- **Contact**: https://github.com/mohammed-karam
+- **GitHub**: https://github.com/mohammed-karam
+
+---
+
+## 🛠️ **Upcoming Features**
+
+- **Authentication & Authorization**
+- **Fixing Some Bugs**
+- **Adding CRUD Operations to Appointements Page**
 
 ---
 
 We greatly appreciate the collaboration and dedication of each team member. For any inquiries or suggestions, feel free to reach out to us!
-
-
